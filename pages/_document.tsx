@@ -39,10 +39,10 @@ class CustomDocument extends Document {
         <Head>
           <link rel="icon" href="/bot/profile.png" />
           <meta property="og:url" content="https://weiver.dev"/>
-          <meta property="og:title" content="타이틀"/>
+          <meta property="og:title" content="Hello, I am WEIVER"/>
           <meta property="og:type" content="website"/>
           <meta property="og:image" content="/bot/profile.png"/>
-          <meta property="og:description" content="Website for bot WEIVER"></meta>
+          <meta property="og:description" content="This is website for WEIVER"></meta>
         </Head>
         <body>
           <Main />
