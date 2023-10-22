@@ -3,28 +3,41 @@ import Profile from '@/components/Profile';
 import Card from '@/components/Card';
 import { useEffect, useState } from 'react';
 import GetState from "@/api/state/get";
+import CardReload from "@/components/Card/Reload";
+import GetURL from "@/api/url/get";
+import { CardData } from "@/components/Card"
 
 export default function Home() {
-  const [name, setName] = useState("WEIVER");
-  const [id, setID] = useState("WEIVER#2142");
-  const [stateText, setStateText] = useState("Hello, I am WEIVER");
+  const [data, setData] = useState<CardData>({
+    name: "WEIVER",
+    id: "WEIVER#2142",
+    state: "Hello, I am WEIVER",
+    inviteURL: "https://discord.com/api/oauth2/authorize?client_id=1152529500689666088&permissions=268438528&scope=bot%20applications.commands",
+    communityURL: "https://discord.gg/n2sn6CSeXZ"
+  });
+  const [reload, doReload] = useState(0);
   const [state, setState] = useState("online");
-
+  
   useEffect(() => {
       GetState().then((res) => {
-          setName(res.name);
-          setID(res.id);
-          setStateText(res.state);
-      }).catch(()=>{
-        setState("offline");
-      });
-  }, []);
+        GetURL().then((resURL) => {
+          setData({
+            name: res.name,
+            id: res.id,
+            state: res.state,
+            inviteURL: resURL.invite,
+            communityURL: resURL.community
+          });
+        }).catch(()=>{setState("offline")})
+      }).catch(()=>{setState("offline")})
+  }, [reload]);
 
   return (
     <>
     <Containter>
+      <CardReload handler={()=>{doReload(reload+1)}}/>
       <Profile state={state}/>
-      <Card name={name} id={id} comment={stateText}/>
+      <Card data={data}/>
     </Containter>
     </>
   )

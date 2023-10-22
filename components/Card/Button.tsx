@@ -34,6 +34,7 @@ const Wrapper = styled.button`
 
   @media screen and (max-width: 800px) {
     height: calc(71 * 100vw / 800);
+    border-radius: calc(10 * 100vw / 500);
   }
 `
 

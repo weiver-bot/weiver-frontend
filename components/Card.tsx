@@ -1,36 +1,31 @@
 import { styled } from "styled-components";
 import CardInfo from "./Card/Info";
 import CardButton from "./Card/Button";
-import { useEffect, useState } from 'react';
-import GetURL from "@/api/url/get";
 
-export default function Card(prop: {
+export interface CardData {
   name: string;
   id: string;
-  comment: string;
+  state: string;
+
+  inviteURL: string;
+  communityURL: string;
+}
+
+export default function Card(prop: {
+  data: CardData
 }) {
-  const [InviteURL, setInviteURL] = useState("https://discord.com/api/oauth2/authorize?client_id=1152529500689666088&permissions=268438528&scope=bot%20applications.commands");
-  const [CommunityURL, setCommunityURL] = useState("https://discord.gg/n2sn6CSeXZ");
-
-  useEffect(() => {
-      GetURL().then((res) => {
-        setInviteURL(res.invite)
-        setCommunityURL(res.community)
-      }).catch(()=>{});
-  }, []);
-
   return (
     <>
     <Wrapper>
       <Container>
-        <CardInfo name={prop.name} id={prop.id} comment={prop.comment}/>
+        <CardInfo name={prop.data.name} id={prop.data.id} comment={prop.data.state}/>
         <Division/>
         <ButtonContainer>
           <CardButton text={"Add to Server"} handler={()=>{
-            window.open(InviteURL);
+            window.open(prop.data.inviteURL);
             }}/>
           <CardButton text={"Community"} handler={()=>{
-            window.open(CommunityURL)
+            window.open(prop.data.communityURL)
           }}/>
         </ButtonContainer>
       </Container>
@@ -43,6 +38,10 @@ const Wrapper = styled.div`
   width: 90%;
   border-radius: 30px;
   background: #111214;
+  
+  @media screen and (max-width: 500px) {
+    border-radius: calc(30 * 100vw / 500);
+  }
 `;
 
 const Container = styled.div`
