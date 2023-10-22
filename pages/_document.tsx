@@ -36,7 +36,9 @@ class CustomDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head />
+        <Head>
+          <link rel="icon" href="/bot/profile.png" />
+        </Head>
         <body>
           <Main />
           <NextScript />
