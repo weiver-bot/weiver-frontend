@@ -13,17 +13,17 @@ export default function CardButton(prop: {
   );
 }
 
-const Wrapper = styled.button`
+const Wrapper = styled.div`
   width: 48%;
   height: 71px;
   border-radius: 10px;
   background-color: #4E5058;
-  cursor: pointer;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+  cursor: pointer;
   &:hover {
     background-color: #6D6F78;
   }

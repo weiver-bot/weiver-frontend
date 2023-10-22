@@ -20,7 +20,10 @@ export default function Profile() {
         <Container>
             <Banner />
             <Image src="/bot/frame.svg" alt="frame" $size={210} />
-            <Image src="/bot/profile.png" alt="profile" $size={170} $isProfile={true} />
+            <ProfileWrapper onClick={()=>window.open("https://github.com/weiver-bot")}>
+                <Image src="/bot/profile.png" alt="profile" $size={170}/>
+                <GitView>View github</GitView>
+            </ProfileWrapper>
             <Wrapper $left={60} $top={60}>
                 <Image src={`/bot/state/${state}.svg`} alt={state} $size={60} />
             </Wrapper>
@@ -73,9 +76,47 @@ const Wrapper = styled.div<{
     }
 `
 
+const GitView = styled.div`
+    position:absolute;
+    font-family: DM Sans;
+  
+    font-size: 12pt;
+    font-style: normal;
+    font-weight: 600;
+`
+
+const ProfileWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    position:absolute;
+    top: 187px;
+    left: 50vw;
+
+    cursor: pointer;
+    color: rgba(255,255,255,0);
+    &:hover {
+        color: rgba(255,255,255,1);
+        > img {
+            opacity: 0.5;
+        }
+    }
+    
+    > img {
+        border-radius: 50%;
+    }
+    background: #000000;
+    
+    @media screen and (max-width: 500px) {
+        top: calc(187 * 100vw / 500);
+    }
+`
+
 const Image = styled.img<{
     $size: number;
-    $isProfile?: boolean;
 }>`
     width: ${prop=>prop.$size}px;
     height: ${prop=>prop.$size}px;
@@ -84,5 +125,4 @@ const Image = styled.img<{
         width: calc(${prop=>prop.$size} * 100vw / 500);
         height: calc(${prop=>prop.$size} * 100vw / 500);
     }
-    ${prop=>prop.$isProfile ? `border-radius:50%`: ""}
 `

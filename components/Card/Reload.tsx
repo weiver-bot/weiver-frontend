@@ -18,12 +18,11 @@ export default function CardReload() {
     );
 }
 
-const Wrapper = styled.button`
+const Wrapper = styled.div`
   width: 45px;
   height: 45px;
   border-radius: 10px;
   background-color: #232428;
-  cursor: pointer;
 
   display: flex;
   justify-content: center;
@@ -42,6 +41,7 @@ const Wrapper = styled.button`
     left: calc(95% - 47 * 100vw / 500);
   }
 
+  cursor: pointer;
   &:hover {
     background-color: #424348;
   }
