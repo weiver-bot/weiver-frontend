@@ -1,10 +1,13 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from 'react';
-import { reload } from "@/components/Card/Reload";
 import GetState from "@/api/state/get";
+import { useRecoilValue } from "recoil";
+import { DoCardReload } from "./Card/Reload";
 
 export default function Profile() {
     const [state, setState] = useState("online");
+
+    const reload = useRecoilValue(DoCardReload);
     
     useEffect(() => {
         GetState().catch(()=>{
@@ -16,10 +19,10 @@ export default function Profile() {
         <>
         <Container>
             <Banner />
-            <Image src="/bot/frame.svg" alt="frame" $size={210}/>
-            <Image src="/bot/profile.png" alt="profile" $size={170}/>
+            <Image src="/bot/frame.svg" alt="frame" $size={210} />
+            <Image src="/bot/profile.png" alt="profile" $size={170} $isProfile={true} />
             <Wrapper $left={60} $top={60}>
-                <Image src={`/bot/state/${state}.svg`} alt={state} $size={60}/>
+                <Image src={`/bot/state/${state}.svg`} alt={state} $size={60} />
             </Wrapper>
         </Container>
         </>
@@ -27,7 +30,7 @@ export default function Profile() {
 }
 
 const Container = styled.div`
-    > img {
+    > img, button {
         transform: translate(-50%, -50%);
         
         position:absolute;
@@ -72,6 +75,7 @@ const Wrapper = styled.div<{
 
 const Image = styled.img<{
     $size: number;
+    $isProfile?: boolean;
 }>`
     width: ${prop=>prop.$size}px;
     height: ${prop=>prop.$size}px;
@@ -80,4 +84,5 @@ const Image = styled.img<{
         width: calc(${prop=>prop.$size} * 100vw / 500);
         height: calc(${prop=>prop.$size} * 100vw / 500);
     }
+    ${prop=>prop.$isProfile ? `border-radius:50%`: ""}
 `

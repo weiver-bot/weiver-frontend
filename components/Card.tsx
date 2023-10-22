@@ -1,10 +1,11 @@
 import { styled } from "styled-components";
 import CardInfo from "./Card/Info";
 import CardButton from "./Card/Button";
-import { useEffect, useState } from 'react';
-import { reload } from "@/components/Card/Reload";
+import { useEffect, useState } from 'react';;
 import GetState from "@/api/state/get";
 import GetURL from "@/api/url/get";
+import { useRecoilValue } from "recoil";
+import { DoCardReload } from "./Card/Reload";
 
 export default function Card() {
   const [name, setName] = useState("WEIVER")
@@ -13,6 +14,8 @@ export default function Card() {
 
   const [inviteURL, setInviteURL] = useState("https://discord.com/oauth2/authorize?client_id=1152529500689666088&permissions=268438528&scope=bot%20applications.commands")
   const [communityURL, setCommunityURL] = useState("https://discord.gg/n2sn6CSeXZ")
+  
+  const reload = useRecoilValue(DoCardReload);
 
   useEffect(() => {
     GetState().then(res=>{
@@ -23,7 +26,7 @@ export default function Card() {
     GetURL().then(res=>{
       setInviteURL(res.invite);
       setCommunityURL(res.community)
-    })
+    }).catch(()=>{})
   }, [reload]);
 
   return (

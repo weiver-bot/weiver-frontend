@@ -1,17 +1,21 @@
 import { styled } from "styled-components";
-import { useState } from 'react';
+import { atom, useRecoilState } from 'recoil';
 
-const [reload, doReload] = useState(1);
-export { reload }
+export const DoCardReload = atom({
+    key: 'CardReload',
+    default: 1, 
+});
 
 export default function CardReload() {
-  return (
-    <>
-    <Wrapper onClick={()=>doReload(-reload)}>
-        <Image src="/reload.svg" alt="reload" $size={35}/>
-    </Wrapper>
-    </>
-  );
+    const [reload, handler] = useRecoilState(DoCardReload);
+
+    return (
+        <>
+        <Wrapper onClick={()=>handler(-reload)}>
+            <Image src="/reload.svg" alt="reload" $size={35}/>
+        </Wrapper>
+        </>
+    );
 }
 
 const Wrapper = styled.button`
