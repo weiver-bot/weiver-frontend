@@ -1,31 +1,43 @@
 import { styled } from "styled-components";
 import CardInfo from "./Card/Info";
 import CardButton from "./Card/Button";
+import { useEffect, useState } from 'react';
+import { reload } from "@/components/Card/Reload";
+import GetState from "@/api/state/get";
+import GetURL from "@/api/url/get";
 
-export interface CardData {
-  name: string;
-  id: string;
-  state: string;
+export default function Card() {
+  const [name, setName] = useState("WEIVER")
+  const [id, setID] = useState("WEIVER#2142")
+  const [state, setState] = useState("Hello, I am WEIVER")
 
-  inviteURL: string;
-  communityURL: string;
-}
+  const [inviteURL, setInviteURL] = useState("https://discord.com/oauth2/authorize?client_id=1152529500689666088&permissions=268438528&scope=bot%20applications.commands")
+  const [communityURL, setCommunityURL] = useState("https://discord.gg/n2sn6CSeXZ")
 
-export default function Card(prop: {
-  data: CardData
-}) {
+  useEffect(() => {
+    GetState().then(res=>{
+      setName(res.name);
+      setID(res.id);
+      setState(res.state);
+    }).catch(()=>{})
+    GetURL().then(res=>{
+      setInviteURL(res.invite);
+      setCommunityURL(res.community)
+    })
+  }, [reload]);
+
   return (
     <>
     <Wrapper>
       <Container>
-        <CardInfo name={prop.data.name} id={prop.data.id} comment={prop.data.state}/>
+        <CardInfo name={name} id={id} comment={state}/>
         <Division/>
         <ButtonContainer>
           <CardButton text={"Add to Server"} handler={()=>{
-            window.open(prop.data.inviteURL);
+            window.open(inviteURL);
             }}/>
           <CardButton text={"Community"} handler={()=>{
-            window.open(prop.data.communityURL)
+            window.open(communityURL)
           }}/>
         </ButtonContainer>
       </Container>

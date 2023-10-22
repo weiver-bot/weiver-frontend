@@ -1,8 +1,17 @@
 import { styled } from "styled-components";
+import { useEffect, useState } from 'react';
+import { reload } from "@/components/Card/Reload";
+import GetState from "@/api/state/get";
 
-export default function Profile(prop: {
-    state: string
-}) {
+export default function Profile() {
+    const [state, setState] = useState("online");
+    
+    useEffect(() => {
+        GetState().catch(()=>{
+            setState("offline");
+        })
+    }, [reload]);
+
     return (
         <>
         <Container>
@@ -10,7 +19,7 @@ export default function Profile(prop: {
             <Image src="/bot/frame.svg" alt="frame" $size={210}/>
             <Image src="/bot/profile.png" alt="profile" $size={170}/>
             <Wrapper $left={60} $top={60}>
-                <Image src={`/bot/state/${prop.state}.svg`} alt={prop.state} $size={60}/>
+                <Image src={`/bot/state/${state}.svg`} alt={state} $size={60}/>
             </Wrapper>
         </Container>
         </>

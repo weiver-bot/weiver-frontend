@@ -1,11 +1,13 @@
 import { styled } from "styled-components";
+import { useState } from 'react';
 
-export default function CardReload(prop: {
-  handler: () => any;
-}) {
+const [reload, doReload] = useState(1);
+export { reload }
+
+export default function CardReload() {
   return (
     <>
-    <Wrapper onClick={prop.handler}>
+    <Wrapper onClick={()=>doReload(-reload)}>
         <Image src="/reload.svg" alt="reload" $size={35}/>
     </Wrapper>
     </>
