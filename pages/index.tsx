@@ -1,13 +1,11 @@
 import { styled } from "styled-components";
 import Profile from '@/components/Profile';
 import Card from '@/components/Card';
-import CardReload from "@/components/Card/Reload";
 
 export default function Home() {
   return (
     <>
     <Containter>
-      <CardReload/>
       <Profile/>
       <Card/>
     </Containter>

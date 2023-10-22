@@ -6,6 +6,7 @@ import GetState from "@/api/state/get";
 import GetURL from "@/api/url/get";
 import { useRecoilValue } from "recoil";
 import { DoCardReload } from "./Card/Reload";
+import CardReload from "@/components/Card/Reload";
 
 export default function Card() {
   const [name, setName] = useState("WEIVER")
@@ -33,6 +34,7 @@ export default function Card() {
     <>
     <Wrapper>
       <Container>
+        <CardReload/>
         <CardInfo name={name} id={id} comment={state}/>
         <Division/>
         <ButtonContainer>
