@@ -83,6 +83,10 @@ const GitView = styled.div`
     font-size: 12pt;
     font-style: normal;
     font-weight: 600;
+    
+    @media screen and (max-width: 500px) {
+        font-size: calc(12 * 100vw / 375);
+    }
 `
 
 const ProfileWrapper = styled.div`
