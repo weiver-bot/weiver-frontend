@@ -5,50 +5,70 @@ export default function Profile(prop: {
 }) {
     return (
         <>
-        <Containter>
-            <Wrapper $left={115} $top={82}>
-                <Image src="/bot/frame.svg" alt="frame" width={210} height={210}/>
+        <Container>
+            <Banner />
+            <Image src="/bot/frame.svg" alt="frame" $size={210}/>
+            <Image src="/bot/profile.png" alt="profile" $size={170}/>
+            <Wrapper $left={60} $top={60}>
+                <Image src={`/bot/state/${prop.state}.svg`} alt={prop.state} $size={60}/>
             </Wrapper>
-            <Wrapper $left={-75} $top={102}>
-                <Image src="/bot/profile.png" alt="profile" width={170} height={170}/>
-            </Wrapper>
-            <Wrapper $left={-135} $top={222}>
-                <Image src={`/bot/state/${prop.state}.svg`} alt={prop.state} width={60} height={60}/>
-            </Wrapper>
-        </Containter>
+        </Container>
         </>
     );
 }
 
-const Containter = styled.div`
-    height: 187px;
-    width: 100%;
-    background: #000000;
+const Container = styled.div`
+    > img {
+        transform: translate(-50%, -50%);
+        
+        position:absolute;
+        top: 187px;
+        left: 50vw;
+        @media screen and (max-width: 500px) {
+            top: calc(187 * 100vw / 500);
+        }
+    }
     
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-`;
+    height: 292px;
+    @media screen and (max-width: 500px) {
+        height: calc(292 * 100vw / 500);
+    }
+`
+
+const Banner = styled.div`
+    height: 187px;
+    width: 100vw;
+    background: #000000;
+
+    @media screen and (max-width: 500px) {
+        height: calc(187 * 100vw / 500);
+    }
+`
 
 const Wrapper = styled.div<{
     $top: number;
     $left: number;
 }>`
-    position:relative;
-    top: ${prop=>prop.$top}px;
-    left: ${prop=>prop.$left}px;
+    transform: translate(-50%, -50%);
 
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
+    position:absolute;
+    top: ${prop=>prop.$top + 187}px;
+    left: calc(50vw + ${prop=>prop.$left}px);
+
+    @media screen and (max-width: 500px) {
+        top: calc(${prop=>prop.$top + 187} * 100vw / 500);
+        left: calc(50vw + ${prop=>prop.$left} * 100vw / 500);
+    }
 `
 
-const Image = styled.img``
+const Image = styled.img<{
+    $size: number;
+}>`
+    width: ${prop=>prop.$size}px;
+    height: ${prop=>prop.$size}px;
+
+    @media screen and (max-width: 500px) {
+        width: calc(${prop=>prop.$size} * 100vw / 500);
+        height: calc(${prop=>prop.$size} * 100vw / 500);
+    }
+`

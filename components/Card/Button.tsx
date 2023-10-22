@@ -31,6 +31,10 @@ const Wrapper = styled.button`
     background-color: #80848E;
   }
   transition: all ease 0.2s 0s;
+
+  @media screen and (max-width: 800px) {
+    height: calc(71 * 100vw / 800);
+  }
 `
 
 const Text = styled.div`
@@ -38,7 +42,11 @@ const Text = styled.div`
   font-family: DM Sans;
   white-space: nowrap;
 
-  font-size: 32px;
+  font-size: 20pt;
   font-style: normal;
   font-weight: 700;
+  
+  @media screen and (max-width: 800px) {
+    font-size: calc(20 * 100vw / 600);
+  }
 `

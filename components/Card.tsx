@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 import CardInfo from "./Card/Info";
 import CardButton from "./Card/Button";
-import Interval from "./Interval";
 import { useEffect, useState } from 'react';
 import GetURL from "@/api/url/get";
 
@@ -23,7 +22,6 @@ export default function Card(prop: {
   return (
     <>
     <Wrapper>
-      <Interval $amount={44}/>
       <Container>
         <CardInfo name={prop.name} id={prop.id} comment={prop.comment}/>
         <Division/>
@@ -36,51 +34,52 @@ export default function Card(prop: {
           }}/>
         </ButtonContainer>
       </Container>
-      <Interval $amount={44}/>
     </Wrapper>
     </>
   );
 }
 
 const Wrapper = styled.div`
-  height: 365px;
   width: 90%;
   border-radius: 30px;
   background: #111214;
-
-  display: flex;
-
-  position:relative;
-  top: 106px
 `;
 
 const Container = styled.div`
-  flex-grow: 1;
+  padding: 47px;
   height: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    padding: calc(47 * 100vw / 500);
+    top: calc(10 * 100vw / 500);
+  }
 `
 
 const Division = styled.div`
   width: 100%;
   height: 3px;
   transform: rotate(-0.09deg);
-  flex-shrink: 0;
-
+  
   background: #2E2F34;
   
-  position:relative;
-  top: 60px
+  @media screen and (max-width: 500px) {
+    height: calc(3 * 100vw / 500);
+    top: calc(60 * 100vw / 500);
+  }
 `
 
 const ButtonContainer = styled.div`
+  padding: 27px 0 0 0;
   width: 100%;
 
   display: flex;
   justify-content: space-between;
   
-  position:relative;
-  top: 90px
+  @media screen and (max-width: 500px) {
+    padding: calc(27 * 100vw / 500) 0 0 0;
+  }
 `
