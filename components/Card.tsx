@@ -26,7 +26,7 @@ export default function Card() {
     }).catch(()=>{})
     GetURL().then(res=>{
       setInviteURL(res.invite);
-      setCommunityURL(res.community)
+      setCommunityURL(res.community);
     }).catch(()=>{})
   }, [reload]);
 
