@@ -22,7 +22,7 @@ export default function LoadReview() {
         const viewportHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
   
-        if (scrollY + viewportHeight >= documentHeight - 800 && !isLoading) {
+        if (scrollY + viewportHeight >= documentHeight - 1082 && !isLoading) {
             doLoad(load + 1);
         }
       }
