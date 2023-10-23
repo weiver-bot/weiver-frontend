@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { Review } from "@/api/review/get";
+import LoadReview from "./Load";
 
 export default function ReviewCard(prop: {
   data: Review;
@@ -15,6 +16,7 @@ export default function ReviewCard(prop: {
           </ContentWrapper>
           <Footer>👍 {prop.data.like} • {prop.data.timestamp}</Footer>
         </Container>
+        <LoadReview/>
     </Wrapper>
     </>
   );
