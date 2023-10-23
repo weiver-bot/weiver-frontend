@@ -10,7 +10,9 @@ export default function Profile() {
     const reload = useRecoilValue(DoCardReload);
     
     useEffect(() => {
-        GetState().catch(()=>{
+        GetState().then(()=>{
+            setState("online");
+        }).catch(()=>{
             setState("offline");
         })
     }, [reload]);
@@ -105,14 +107,14 @@ const ProfileWrapper = styled.div`
     &:hover {
         color: rgba(255,255,255,1);
         > img {
-            opacity: 0.5;
+            filter: brightness(0.5);
         }
     }
     
     > img {
+        filter: brightness(1.0);
         border-radius: 50%;
     }
-    background: #000000;
     
     @media screen and (max-width: 500px) {
         top: calc(187 * 100vw / 500);

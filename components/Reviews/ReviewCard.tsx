@@ -28,6 +28,16 @@ const Wrapper = styled.div`
   display: flex;
   
   padding: 20px 20px 0 0;
+
+  cursor: pointer;
+  div {
+    filter: brightness(1.0);
+  }
+  &:hover {
+    div {
+      filter: brightness(0.8);
+    }
+  }
 `
 
 const Color = styled.div`
