@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { DoLoadReview, IsReviewLoading } from "./Reviews/Load";
 
 export default function Profile() {
-    var loaded = 0;
+    var [loaded, setLoaded] = useState(0);
     var [reviews, setReviews] = useState<Review[]>();
 
     const load = useRecoilValue(DoLoadReview);
@@ -20,7 +20,7 @@ export default function Profile() {
             } else {
                 setReviews([...reviews, ...res])
             }
-            loaded += res.length;
+            setLoaded(loaded + res.length);
         }).catch(()=>{})
         setIsLoading(false);
       }, [load]);
