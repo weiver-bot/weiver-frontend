@@ -45,6 +45,11 @@ const Wrapper = styled.div`
   &:hover {
     background-color: #424348;
   }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #232428;
+    }
+  }
   &:active {
     background-color: #55585E;
   }

@@ -141,6 +141,11 @@ const Button = styled.div<{
     font-weight: 700;` : 
     `&:hover {
       background: #232428; 
+    }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: transparent; 
+      }
     }`
   }
   --margin: ${prop=>prop.$selected ? `8`:`0`};
