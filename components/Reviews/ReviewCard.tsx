@@ -36,13 +36,6 @@ const Wrapper = styled.div`
       filter: brightness(0.8);
     }
   }
-  @media(hover: hover) and (pointer: fine) {
-    &:hover {
-      div {
-        filter: brightness(0.8);
-      }
-    }
-  }
   
   @media screen and (max-width: 500px) {
     padding: calc(20 * 100vw / 500) 0 0 0;
