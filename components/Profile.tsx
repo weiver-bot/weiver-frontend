@@ -104,10 +104,18 @@ const ProfileWrapper = styled.div`
 
     cursor: pointer;
     color: rgba(255,255,255,0);
-    @media(hover: hover) and (pointer: fine) {
+    &:hover {
         color: rgba(255,255,255,1);
         > img {
             filter: brightness(0.5);
+        }
+    }
+    @media(hover: hover) and (pointer: fine) {
+        &:hover {
+            color: rgba(255,255,255,0);
+            > img {
+                filter: brightness(1.0);
+            }
         }
     }
     
