@@ -20,6 +20,7 @@ export default function Reviews(prop: {
     }, [router])
 
     useEffect(()=>{
+        setReviews([]);
         if (page == null) return;
         GetReviewsCount().then(async res=>{
             var limit = Math.ceil(res.count / ReviewOnPage);
