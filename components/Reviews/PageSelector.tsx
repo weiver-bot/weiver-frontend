@@ -139,7 +139,7 @@ const Button = styled.div<{
   ${prop=>prop.$selected ? 
     `background: #5865F2;
     font-weight: 700;` : 
-    `&:hover { 
+    `@media(hover: hover) and (pointer: fine) {
       background: #232428; 
     }`
   }
