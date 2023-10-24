@@ -6,7 +6,8 @@ export default function ReviewCard(prop: {
 }) {
   return (
     <>
-    <Wrapper onClick={()=>window.open(prop.data.url)}>
+    <Wrapper>
+      <ClickArea onClick={()=>window.open(prop.data.url)}>
         <Color/>
         <Container>
           <Title>📝{prop.data.title} [{prop.data.score}]</Title>
@@ -15,18 +16,15 @@ export default function ReviewCard(prop: {
           </ContentWrapper>
           <Footer>👍 {prop.data.like} • {prop.data.timestamp}</Footer>
         </Container>
+      </ClickArea>
     </Wrapper>
     </>
   );
 }
 
-const Wrapper = styled.div`
-  flex-grow: 1;
+const ClickArea = styled.div`
   width: 100%;
-  display: flex;
-  
-  padding: 20px 0 0 0;
-
+  height: 100%;
   cursor: pointer;
   div {
     filter: brightness(1.0);
@@ -38,6 +36,14 @@ const Wrapper = styled.div`
       }
     }
   }
+`
+
+const Wrapper = styled.div`
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  
+  padding: 20px 0 0 0;
   
   @media screen and (max-width: 500px) {
     padding: calc(20 * 100vw / 500) 0 0 0;
