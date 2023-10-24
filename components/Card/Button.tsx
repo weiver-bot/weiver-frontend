@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   align-items: center;
 
   cursor: pointer;
-  &:hover {
+  @media(hover: hover) and (pointer: fine) {
     background-color: #6D6F78;
   }
   &:active {
