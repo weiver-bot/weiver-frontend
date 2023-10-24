@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { ChangeEvent, ChangeEventHandler, KeyboardEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, KeyboardEventHandler, useRef, useState } from "react";
 
 export default function PageSelector(prop: {
   page: number;
@@ -24,12 +24,12 @@ export default function PageSelector(prop: {
   return (
     <>
     <Container>
-    {limit != 1 ? <Button onClick={()=>handler(page-1)} $notAllow={page==1}>&lt;</Button> : ''}
-    {list?.map((e) => {
-      if (e < 1) return <InputButton key={`${page}#${e}`} handler={handler}/>;
-      if (e > 0) return <Button key={`${page}#${e}`} $selected={e == page} onClick={()=>handler(e)}>{e}</Button>
-    })}
-    {limit != 1 ? <Button onClick={()=>handler(page+1)} $notAllow={page==limit}>&gt;</Button> : ''}
+      {limit != 1 ? <Button onClick={()=>handler(page-1)} $notAllow={page==1}>&lt;</Button> : ''}
+      {list?.map((e) => {
+        if (e < 1) return <InputButton key={`${page}#${e}`} handler={handler}/>;
+        if (e > 0) return <Button key={`${page}#${e}`} $selected={e == page} onClick={()=>handler(e)}>{e}</Button>
+      })}
+      {limit != 1 ? <Button onClick={()=>handler(page+1) } $notAllow={page==limit}>&gt;</Button> : ''}
     </Container>
     </>
   )
@@ -56,27 +56,22 @@ function InputButton(prop: {
   handler: (e: number)=>any;
 }) {
   const [focus, setFocus] = useState(false);
-  const [value, setValue] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   if (focus) {
-    const onKeyPress: KeyboardEventHandler = (k) => {
+    const onKeyDown: KeyboardEventHandler = (k) => {
       if (k.key === 'Enter') {
-        prop.handler(value);
+        prop.handler(Number((inputRef.current as HTMLInputElement).value));
         setFocus(false);
       }
-    };
-    const onChange: ChangeEventHandler = (c) => {
-      setValue(Number((c.target as HTMLInputElement).value));
     };
     return (
       <Input
         type="number"
-        id="page"
-        name="page"
-        onBlur={()=>setFocus(false)}
+        onBlur={()=>setFocus(false)} 
+        onKeyDown={onKeyDown}
+        ref={inputRef}
         autoFocus
-        onKeyUp={onKeyPress}
-        onChange={onChange}
       />
     )
   } else {
@@ -139,12 +134,9 @@ const Button = styled.div<{
   ${prop=>prop.$selected ? 
     `background: #5865F2;
     font-weight: 700;` : 
-    `&:hover {
-      background: #232428; 
-    }
-    @media (hover: hover) and (pointer: fine) {
+    `@media (hover: hover) and (pointer: fine) {
       &:hover {
-        background: transparent; 
+        background: #232428; 
       }
     }`
   }

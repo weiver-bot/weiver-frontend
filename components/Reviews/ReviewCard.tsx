@@ -31,15 +31,9 @@ const Wrapper = styled.div`
   div {
     filter: brightness(1.0);
   }
-  &:hover {
-    div {
-      filter: brightness(0.8);
-    }
-  }
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
+  @media (hover: hover) and (pointer: fine) {&:hover {
       div {
-        filter: brightness(1);
+        filter: brightness(0.8);
       }
     }
   }
