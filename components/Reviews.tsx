@@ -4,6 +4,7 @@ import { GetReviewOnPage, GetReviewsCount, Review, ReviewOnPage } from "@/api/re
 import ReviewCard from "./Reviews/ReviewCard";
 import PageSelector from "./Reviews/PageSelector";
 import { NextRouter, useRouter } from "next/router";
+import Loading from "./Reviews/Loading";
 
 export default function Reviews(prop: {
     router: NextRouter;
@@ -43,10 +44,10 @@ export default function Reviews(prop: {
         <Wrapper>
             <Title>REVIEWS</Title>
             <Container> 
+            {!reviews ? <Loading/> : ""}
             {reviews?.map((v) => (
                 <ReviewCard key={`${v.id}#${v.timestamp}`} data={v} />
             ))}
-            {reviews ? "Loading..." : ""}
             </Container>
             {page ? <PageSelector page={page} limit={limit} handler={setPage}/>:""}
         </Wrapper>
