@@ -120,10 +120,10 @@ const Button = styled.div<{
   $selected?: boolean;
   $notAllow?: boolean;
 }>`
-  --size: 30;
-  min-width: calc(var(--size) * 1px);
-  min-height: calc(var(--size) * 1px);
-  border-radius: calc(var(--size) / 2 * 1px);
+  --size: 30px;
+  min-width: var(--size);
+  min-height: var(--size);
+  border-radius: calc(var(--size) / 2);
 
   display: flex;
   align-items: center;
