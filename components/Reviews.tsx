@@ -46,6 +46,7 @@ export default function Reviews(prop: {
             {reviews?.map((v) => (
                 <ReviewCard key={`${v.id}#${v.timestamp}`} data={v} />
             ))}
+            {reviews ? "Loading..." : ""}
             </Container>
             {page ? <PageSelector page={page} limit={limit} handler={setPage}/>:""}
         </Wrapper>
