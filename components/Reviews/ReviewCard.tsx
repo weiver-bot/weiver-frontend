@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   div {
     filter: brightness(1.0);
   }
-  &:hover {
+  @media (hover: hover) {
     div {
       filter: brightness(0.8);
     }

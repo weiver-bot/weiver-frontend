@@ -104,7 +104,7 @@ const ProfileWrapper = styled.div`
 
     cursor: pointer;
     color: rgba(255,255,255,0);
-    &:hover {
+    @media (hover: hover) {
         color: rgba(255,255,255,1);
         > img {
             filter: brightness(0.5);

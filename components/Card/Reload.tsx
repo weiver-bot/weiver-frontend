@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   }
 
   cursor: pointer;
-  &:hover {
+  @media (hover: hover) {
     background-color: #424348;
   }
   &:active {
