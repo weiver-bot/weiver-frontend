@@ -9,7 +9,7 @@ import Loading from "./Reviews/Loading";
 export default function Reviews(prop: {
     router: NextRouter;
 }) {
-    const [reviews, setReviews] = useState<Review[]>();
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [page, setPage] = useState<null|number>(null);
     const [limit, setLimit] = useState(1);
 
@@ -44,7 +44,7 @@ export default function Reviews(prop: {
         <Wrapper>
             <Title>REVIEWS</Title>
             <Container> 
-            {!reviews ? <Loading/> : ""}
+            {reviews.length ? "" : <Loading/>}
             {reviews?.map((v) => (
                 <ReviewCard key={`${v.id}#${v.timestamp}`} data={v} />
             ))}
