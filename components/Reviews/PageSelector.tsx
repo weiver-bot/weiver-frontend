@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useState } from "react";
+import { ChangeEvent, ChangeEventHandler, KeyboardEventHandler, useState } from "react";
 
 export default function PageSelector(prop: {
   page: number;
@@ -18,18 +18,18 @@ export default function PageSelector(prop: {
   }
 
   const handler = (e: number) => {
-    if (e < 1 || prop.limit < e || e == prop.page) return;
+    if (e < 1 || limit < e || e == page) return;
     prop.handler(e);
   }
   return (
     <>
     <Container>
-    {prop.limit != 1 ? <Button onClick={()=>handler(prop.page-1)} $notAllow={prop.page==1}>&lt;</Button> : <Button/>}
+    {limit != 1 ? <Button onClick={()=>handler(page-1)} $notAllow={page==1}>&lt;</Button> : ''}
     {list?.map((e) => {
-      if (e < 1) return <InputButton key={`${prop.page}#${e}`}/>;
-      if (e > 0) return <Button key={`${prop.page}#${e}`} $selected={e == prop.page} onClick={()=>handler(e)}>{e}</Button>
+      if (e < 1) return <InputButton key={`${page}#${e}`} limit={limit} handler={handler}/>;
+      if (e > 0) return <Button key={`${page}#${e}`} $selected={e == page} onClick={()=>handler(e)}>{e}</Button>
     })}
-    {prop.limit != 1 ? <Button onClick={()=>handler(prop.page+1)} $notAllow={prop.page==prop.limit}>&gt;</Button> : <Button/>}
+    {limit != 1 ? <Button onClick={()=>handler(page+1)} $notAllow={page==limit}>&gt;</Button> : ''}
     </Container>
     </>
   )
@@ -40,22 +40,45 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  @media screen and (max-width: 500px) {
+    padding: calc(20 * 100vw / 500) 0 0 0;
+  }
+  * {
+    margin: calc(var(--margin) * 1px);
+    @media screen and (max-width: 500px) {
+      margin: calc(var(--margin) * 100vw / 500);
+    }
+  }
 `
 
-function InputButton() {
+function InputButton(prop: {
+  handler: (e: number)=>any;
+}) {
   const [focus, setFocus] = useState(false);
+  const [value, setValue] = useState(0);
 
   if (focus) {
+    const onKeyPress: KeyboardEventHandler = (k) => {
+      if (k.key === 'Enter') {
+        prop.handler(value);
+        setFocus(false);
+      }
+    };
+    const onChange: ChangeEventHandler = (c) => {
+      setValue(Number(c.target.value));
+    };
+
     return (
-      <form method="get">
-        <Input
-          type="text"
-          id="page"
-          name="page"
-          onBlur={()=>setFocus(false)}
-          autoFocus
-        />
-      </form>
+      <Input
+        type="number"
+        id="page"
+        name="page"
+        onBlur={()=>setFocus(false)}
+        autoFocus
+        onKeyUp={onKeyPress}
+        onChange={onChange}
+      />
     )
   } else {
     return <Button onClick={()=>setFocus(true)}>...</Button>
@@ -65,24 +88,43 @@ function InputButton() {
 const Input = styled.input`
   width: 50px;
   height: 25px;
+  border-radius: 5px;
+  --margin: 4;
 
-  font-size: 13pt;
+  font-size: 8pt;
   color: #FFFFFF;
 
   background-color: #1E1F22;
   outline: none;
 
   padding: 7px;
+  
+  @media screen and (max-width: 500px) {
+    width: calc(50 * 100vw / 500);
+    height: calc(25 * 100vw / 500);
+    border-radius: calc(5 * 100vw / 375);
+  
+    font-size: calc(8 * 100vw / 375);
+    
+    padding: calc(7 * 100vw / 500);
+  }
+  
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
 `
 
 const Button = styled.div<{
   $selected?: boolean;
   $notAllow?: boolean;
 }>`
-  --size: 30px;
-  width: var(--size);
-  height: var(--size);
-  border-radius: 50%;
+  --size: 30;
+  min-width: calc(var(--size) * 1px);
+  min-height: calc(var(--size) * 1px);
+  border-radius: calc(var(--size) / 2 * 1px);
 
   display: flex;
   align-items: center;
@@ -92,19 +134,26 @@ const Button = styled.div<{
   font-family: DM Mono;
   white-space: wrap;
 
-  font-size: 13pt;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   ${prop=>prop.$selected ? 
-    "background: #5865F2;" : 
+    `background: #5865F2;
+    font-weight: 700;` : 
     `&:hover { 
       background: #232428; 
     }`
   }
+  --margin: ${prop=>prop.$selected ? `8`:`0`};
   
   cursor: pointer;
   ${prop=>prop.$notAllow ? 
     `cursor: not-allowed; 
     color: #8F9093;` : ""
+  }
+
+  @media screen and (max-width: 500px) {
+    --size: calc(30 * 100vw / 500);
+    font-size: calc(13 * 100vw / 375);
   }
 `

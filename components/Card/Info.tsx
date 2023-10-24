@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import CardReload from "./Reload";
 
 export default function CardInfo(prop: { 
     name: string;
@@ -18,6 +19,10 @@ export default function CardInfo(prop: {
     </>
   );
 }
+
+const FirstRow = styled.div`
+  display: flex;
+`
 
 const Container = styled.div`
   display: flex;
@@ -73,7 +78,7 @@ const ID = styled.div`
 
 const Image = styled.img`
   position:relative;
-  --top: 12.25;
+  --top: 13.5;
   left: 7px;
   width: 50px;
   height: 25px;
@@ -81,6 +86,7 @@ const Image = styled.img`
   @media screen and (max-width: 500px) {
     width: calc(50 * 100vw / 500);
     height: calc(25 * 100vw / 500);
+    left: calc(7 * 100vw / 500);
   }
 `
 

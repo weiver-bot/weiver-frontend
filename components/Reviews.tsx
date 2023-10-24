@@ -5,7 +5,6 @@ import ReviewCard from "./Reviews/ReviewCard";
 import PageSelector from "./Reviews/PageSelector";
 import { NextRouter, useRouter } from "next/router";
 
-
 export default function Reviews(prop: {
     router: NextRouter;
 }) {
@@ -15,7 +14,7 @@ export default function Reviews(prop: {
 
     const router = prop.router;
     useEffect(()=>{
-        if (!router) return;
+        if (!router || !router.isReady) return;
         var p = Number(router.query["page"]);
         setPage(p ? p : 1);
     }, [router])
@@ -34,9 +33,8 @@ export default function Reviews(prop: {
         }).catch(()=>{
             setLimit(1)
         });
-        if (router.query["page"] || page != 1) {
-            router.push(`/?page=${page}`);
-        }
+        if (!router.query["page"] && page == 1) router.push(`/`);
+        else router.push(`/?page=${page}`);
     }, [page])
 
     return (

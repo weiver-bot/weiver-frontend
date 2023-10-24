@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   
-  padding: 20px 20px 0 0;
+  padding: 20px 0 0 0;
 
   cursor: pointer;
   div {
@@ -35,6 +35,10 @@ const Wrapper = styled.div`
     div {
       filter: brightness(0.8);
     }
+  }
+  
+  @media screen and (max-width: 500px) {
+    padding: calc(20 * 100vw / 500) 0 0 0;
   }
 `
 

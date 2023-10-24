@@ -34,8 +34,8 @@ export default function Card() {
     <>
     <Wrapper>
       <Container>
-        <CardReload/>
         <CardInfo name={name} id={id} comment={state}/>
+        <CardReload/>
         <Division/>
         <ButtonContainer>
           <CardButton text={"Add to Server"} handler={()=>{
