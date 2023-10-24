@@ -11,7 +11,7 @@ export default function CardInfo(prop: {
       <Name>{prop.name}</Name>
       <SecondRow>
         <ID>{prop.id}</ID>
-        <Image src="/bot/icon.svg" alt="bot"/>
+        <Image src="/bot/tag.svg" alt="tag"/>
       </SecondRow>
       <Comment>{prop.comment}</Comment>
     </Container>

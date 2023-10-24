@@ -1,29 +1,43 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from 'react';
-import { GetReviewPart, Review } from "@/api/review/get";
+import { GetReviewOnPage, GetReviewsCount, Review, ReviewOnPage } from "@/api/review/get";
 import ReviewCard from "./Reviews/ReviewCard";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { DoLoadReview, IsReviewLoading } from "./Reviews/Load";
+import PageSelector from "./Reviews/PageSelector";
+import { NextRouter, useRouter } from "next/router";
 
-export default function Profile() {
-    var [loaded, setLoaded] = useState(0);
-    var [reviews, setReviews] = useState<Review[]>();
 
-    const load = useRecoilValue(DoLoadReview);
-    const [_, setIsLoading] = useRecoilState(IsReviewLoading);
+export default function Reviews(prop: {
+    router: NextRouter;
+}) {
+    const [reviews, setReviews] = useState<Review[]>();
+    const [page, setPage] = useState<null|number>(null);
+    const [limit, setLimit] = useState(1);
 
-    useEffect(() => {
-        setIsLoading(true);
-        GetReviewPart(loaded).then(res=>{
-            if (reviews == undefined) {
-                setReviews(res);
-            } else {
-                setReviews([...reviews, ...res])
-            }
-            setLoaded(loaded + res.length);
-        }).catch(()=>{})
-        setIsLoading(false);
-      }, [load]);
+    const router = prop.router;
+    useEffect(()=>{
+        if (!router) return;
+        var p = Number(router.query["page"]);
+        setPage(p ? p : 1);
+    }, [router])
+
+    useEffect(()=>{
+        if (page == null) return;
+        GetReviewsCount().then(async res=>{
+            var limit = Math.ceil(res.count / ReviewOnPage);
+            setLimit(limit);
+            if (page < 1 || limit < page) return setPage(1);
+
+            var reviews = await GetReviewOnPage(page).catch(()=>{});
+            if (!reviews) return setPage(1);
+
+            setReviews(reviews);
+        }).catch(()=>{
+            setLimit(1)
+        });
+        if (router.query["page"] || page != 1) {
+            router.push(`/?page=${page}`);
+        }
+    }, [page])
 
     return (
         <>
@@ -31,9 +45,10 @@ export default function Profile() {
             <Title>REVIEWS</Title>
             <Container> 
             {reviews?.map((v) => (
-                <ReviewCard data={v} />
+                <ReviewCard key={`${v.id}#${v.timestamp}`} data={v} />
             ))}
             </Container>
+            {page ? <PageSelector page={page} limit={limit} handler={setPage}/>:""}
         </Wrapper>
         </>
     );
