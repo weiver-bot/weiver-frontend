@@ -26,7 +26,7 @@ export default function PageSelector(prop: {
     <Container>
     {limit != 1 ? <Button onClick={()=>handler(page-1)} $notAllow={page==1}>&lt;</Button> : ''}
     {list?.map((e) => {
-      if (e < 1) return <InputButton key={`${page}#${e}`} limit={limit} handler={handler}/>;
+      if (e < 1) return <InputButton key={`${page}#${e}`} handler={handler}/>;
       if (e > 0) return <Button key={`${page}#${e}`} $selected={e == page} onClick={()=>handler(e)}>{e}</Button>
     })}
     {limit != 1 ? <Button onClick={()=>handler(page+1)} $notAllow={page==limit}>&gt;</Button> : ''}
@@ -66,9 +66,8 @@ function InputButton(prop: {
       }
     };
     const onChange: ChangeEventHandler = (c) => {
-      setValue(Number(c.target.value));
+      setValue(Number((c.target as HTMLInputElement).value));
     };
-
     return (
       <Input
         type="number"

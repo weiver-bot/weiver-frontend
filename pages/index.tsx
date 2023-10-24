@@ -19,7 +19,8 @@ export default function Home() {
 }
 
 const Containter = styled.div`
-  height: min(100%, 100dvh);
+  height: 100%;
+  min-height: 100dvh;
 
   width: 100vw;
   background: #313338;
