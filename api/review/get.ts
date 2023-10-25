@@ -15,8 +15,8 @@ export async function GetReviewsCount() {
     return res.data;
 }
 
-export async function GetReview(from: number, count: number) {
-    const res = await axios.get<Review[]>(process.env.API_URL + `/reviews/list?from=${from}&count=${count}`);
+export async function GetReview(from: number, count: number, orderby: string = "") {
+    const res = await axios.get<Review[]>(process.env.API_URL + `/reviews/list?from=${from}&count=${count}` + (orderby ? `&order=${orderby}` : ""));
     return res.data;
 }
 
@@ -28,6 +28,6 @@ export const ReviewOnPage = (()=>{
     return +r
 })()
 
-export async function GetReviewOnPage(page: number,) {
-    return await GetReview(ReviewOnPage * (page - 1), ReviewOnPage);
+export async function GetReviewOnPage(page: number, orderby: string = "") {
+    return await GetReview(ReviewOnPage * (page - 1), ReviewOnPage, orderby);
 }

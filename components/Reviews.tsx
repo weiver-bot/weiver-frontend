@@ -6,41 +6,60 @@ import PageSelector from "./Reviews/PageSelector";
 import { NextRouter, useRouter } from "next/router";
 import Loading from "./Reviews/Loading";
 
+interface PathData {
+    page: number;
+    order?: string;
+}
+
+
 export default function Reviews(prop: {
     router: NextRouter;
 }) {
     const [reviews, setReviews] = useState<Review[]>([]);
-    const [page, setPage] = useState<null|number>(null);
+    const [path, setPath] = useState<null|PathData>(null);
     const [limit, setLimit] = useState(1);
 
     const router = prop.router;
     useEffect(()=>{
         if (!router || !router.isReady) return;
+        var data: PathData = { page: 1 }
+        switch (router.query["order"]) {
+            case "time":
+                data.order = "Time_Stamp desc";
+        }
         var p = Number(router.query["page"]);
-        setPage(p ? p : 1);
-    }, [router])
+        data.page = p ? p : 1;
+        setPath(data);
+    }, [router.isReady])
 
     useEffect(()=>{
         setReviews([]);
-        if (page == null) return;
+        if (path == null) return;
 
         GetReviewsCount().then(async res=>{
             var limit = Math.ceil(res.count / ReviewOnPage);
             setLimit(limit);
-            if (page < 1 || limit < page) return setPage(1);
+            if (path.page < 1 || limit < path.page) return setPath({ page:1 });
 
-            var reviews = await GetReviewOnPage(page).catch(()=>{});
-            if (!reviews) return setPage(1);
+            var reviews = await GetReviewOnPage(path.page, path.order).catch(()=>{});
+            if (!reviews) return setPath({ page:1 });
 
             setReviews(reviews);
         }).catch(()=>{
             setLimit(1)
         });
         
-        if (!router.query["page"] && page == 1) router.push(`/`);
-        else router.push(`/?page=${page}`);
-    }, [page])
+        var order = router.query["order"];
+        if (!router.query["page"] && !router.query["order"] && path.page == 1) router.push(`/`);
+        else router.push(`/?${order ? `order=${order}&`:""}page=${path.page}`);
+    }, [path])
 
+    const handler = (e: number) => {
+        setPath({
+            page: e,
+            order: path?.order
+        });
+    }
     return (
         <>
         <Wrapper>
@@ -51,7 +70,7 @@ export default function Reviews(prop: {
                 <ReviewCard key={`${v.id}#${v.timestamp}`} data={v} />
             ))}
             </Container>
-            {page ? <PageSelector page={page} limit={limit} handler={setPage}/>:""}
+            {path ? <PageSelector page={path.page} limit={limit} handler={handler}/>:""}
         </Wrapper>
         </>
     );
