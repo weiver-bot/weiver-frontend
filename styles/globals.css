@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  background: #313338;
+}
 * {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -20,4 +24,35 @@ body::-webkit-scrollbar {
 body .scroll {
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
+}
+
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
+}
+
+@keyframes move {
+  /* keyframe */
+  from {
+    top: 10lvh;
+  }
+  /* keyframe */
+  to {
+    top: 0;
+  }
+}
+
+@keyframes fadeIn {
+  /* keyframe */
+  from {
+    opacity: 0;
+  }
+  /* keyframe */
+  to {
+    opacity: 100;
+  }
 }

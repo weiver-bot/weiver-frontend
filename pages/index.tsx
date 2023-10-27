@@ -1,32 +1,45 @@
 import { styled } from "styled-components";
-import Profile from '@/components/Profile';
+import Top from '@/components/Top';
 import Card from '@/components/Card';
-import Reviews from '@/components/Reviews';
 import { useRouter } from "next/router";
+import Loading from "@/components/Loading";
 
 export default function Home() {
   const router = useRouter();
 
+  if (!router.isReady) {
+    return (
+    <>
+      <Loading/>
+    </>
+    )
+  }
+
   return (
     <>
     <Containter>
-      <Profile/>
-      <Card/>
-      <Reviews router={router}/>
+      <Top $height={300} $center={true} $handler={()=>window.open("https://github.com/weiver-bot")} $popmsg="View Github" $fontratio={0.06}/>
+      <Wrapper>
+        <Card $router={router}/>
+      </Wrapper>
     </Containter>
     </>
   )
 }
 
 const Containter = styled.div`
-  height: 100%;
-  min-height: 100dvh;
-
-  width: 100vw;
-  background: #313338;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 `;
+
+const Wrapper = styled.div`
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+
+  position: relative;
+  animation: move 1s 1, fadeIn 1s 1;
+  > * {
+    animation: fadeIn 1s 1;
+  }
+`

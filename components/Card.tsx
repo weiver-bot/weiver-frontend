@@ -4,20 +4,22 @@ import CardButton from "./Card/Button";
 import { useEffect, useState } from 'react';;
 import GetState from "@/api/state/get";
 import GetURL from "@/api/url/get";
-import { useRecoilValue } from "recoil";
-import { DoCardReload } from "./Card/Reload";
-import CardReload from "@/components/Card/Reload";
+import { NextRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { AniFrom } from "@/recoil/Top";
 
-export default function Card() {
+export default function Card(prop: {
+  $router: NextRouter
+}) {
   const [name, setName] = useState("WEIVER")
   const [id, setID] = useState("WEIVER#2142")
   const [state, setState] = useState("Hello, I am WEIVER")
 
   const [inviteURL, setInviteURL] = useState("https://discord.com/oauth2/authorize?client_id=1152529500689666088&permissions=268438528&scope=bot%20applications.commands")
-  const [communityURL, setCommunityURL] = useState("https://discord.gg/n2sn6CSeXZ")
-  
-  const reload = useRecoilValue(DoCardReload);
+  const [communityURL, setCommunityURL] = useState("https://discord.gg/n2sn6CSeXZ");
 
+  const [_, setAniFrom] = useRecoilState(AniFrom);
+  
   useEffect(() => {
     GetState().then(res=>{
       setName(res.name);
@@ -28,19 +30,22 @@ export default function Card() {
       setInviteURL(res.invite);
       setCommunityURL(res.community);
     }).catch(()=>{})
-  }, [reload]);
+  }, []);
 
   return (
     <>
     <Wrapper>
       <Container>
         <CardInfo name={name} id={id} comment={state}/>
-        <CardReload/>
         <Division/>
         <ButtonContainer>
           <CardButton text={"Add to Server"} handler={()=>{
-            window.open(inviteURL);
-            }}/>
+          window.open(inviteURL);
+          }}/>
+          <CardButton text={"Reviews"} handler={()=>{
+            setAniFrom([300, 0.06, true]);
+            prop.$router.push("/review")
+          }}/>
           <CardButton text={"Community"} handler={()=>{
             window.open(communityURL)
           }}/>
@@ -97,5 +102,12 @@ const ButtonContainer = styled.div`
   
   @media screen and (max-width: 500px) {
     padding: calc(27 * 100vw / 500) 0 0 0;
+  }
+
+  > * {
+	  flex: 1 1 0;
+  }
+  :nth-child(n+2) {
+    margin-left:2%;
   }
 `

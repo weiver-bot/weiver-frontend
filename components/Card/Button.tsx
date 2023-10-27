@@ -14,7 +14,6 @@ export default function CardButton(prop: {
 }
 
 const Wrapper = styled.div`
-  width: 48%;
   height: 71px;
   border-radius: 10px;
   background-color: #4E5058;

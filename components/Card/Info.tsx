@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import CardReload from "./Reload";
 
 export default function CardInfo(prop: { 
     name: string;

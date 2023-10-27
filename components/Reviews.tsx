@@ -3,62 +3,60 @@ import { useEffect, useState } from 'react';
 import { GetReviewOnPage, GetReviewsCount, Review, ReviewOnPage } from "@/api/review/get";
 import ReviewCard from "./Reviews/ReviewCard";
 import PageSelector from "./Reviews/PageSelector";
-import { NextRouter, useRouter } from "next/router";
-import Loading from "./Reviews/Loading";
+import { NextRouter } from "next/router";
+import Loading from "./Loading";
 
-interface PathData {
+interface ReviewData {
     page: number;
-    order?: string;
+    query?: string;
 }
-
 
 export default function Reviews(prop: {
     router: NextRouter;
 }) {
     const [reviews, setReviews] = useState<Review[]>([]);
-    const [path, setPath] = useState<null|PathData>(null);
+    const [path, setPath] = useState<null|ReviewData>(null);
     const [limit, setLimit] = useState(1);
 
     const router = prop.router;
     useEffect(()=>{
         if (!router || !router.isReady) return;
-        var data: PathData = { page: 1 }
-        switch (router.query["order"]) {
+
+        var page = Number(router.query["page"]), query = undefined;
+        switch (router.query["sort"]) {
             case "time":
-                data.order = "Time_Stamp desc";
+                query = "Time_Stamp desc";
+                break;
+            case undefined:
+                break;
+            default:
+                router.replace(`/review?page=${page ? page : 1}`);
         }
-        var p = Number(router.query["page"]);
-        data.page = p ? p : 1;
-        setPath(data);
-    }, [router.isReady])
+
+        setPath({ page: page ? page : 1, query: query });
+    }, [router.query])
 
     useEffect(()=>{
         setReviews([]);
         if (path == null) return;
-
+        
         GetReviewsCount().then(async res=>{
             var limit = Math.ceil(res.count / ReviewOnPage);
             setLimit(limit);
-            if (path.page < 1 || limit < path.page) return setPath({ page:1 });
+            if (path.page < 1 || limit < path.page) return router.push('/review?page=1');
 
-            var reviews = await GetReviewOnPage(path.page, path.order).catch(()=>{});
-            if (!reviews) return setPath({ page:1 });
+            var reviews = await GetReviewOnPage(path.page, path.query).catch(()=>{});
+            if (!reviews) return router.push('/review?page=1');
 
             setReviews(reviews);
         }).catch(()=>{
             setLimit(1)
         });
-        
-        var order = router.query["order"];
-        if (!router.query["page"] && !router.query["order"] && path.page == 1) router.push(`/`);
-        else router.push(`/?${order ? `order=${order}&`:""}page=${path.page}`);
     }, [path])
 
     const handler = (e: number) => {
-        setPath({
-            page: e,
-            order: path?.order
-        });
+        var sort = router.query["sort"];
+        router.push(`/review?${sort ? `sort=${sort}&`:``}page=${e}`);
     }
     return (
         <>
@@ -83,10 +81,11 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-itmes: flex-start;
 
-    padding: 30px 0;
+    padding: 5px 0;
     @media screen and (max-width: 500px) {
-        padding: calc(30 * 100vw / 500) 0;
+        padding: calc(5 * 100vw / 500) 0;
     }
+    animation: fadeIn 1s 1;
 `
 const Container = styled.div`
     display: flex;

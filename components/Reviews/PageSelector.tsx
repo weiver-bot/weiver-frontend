@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { ChangeEvent, ChangeEventHandler, KeyboardEventHandler, useRef, useState } from "react";
+import { KeyboardEventHandler, useRef, useState } from "react";
 
 export default function PageSelector(prop: {
   page: number;
@@ -130,22 +130,24 @@ const Button = styled.div<{
 
   font-size: 14px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   ${prop=>prop.$selected ? 
     `background: #5865F2;
+    --hover-background: #5865F2;
     font-weight: 700;` : 
-    `@media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background: #232428; 
-      }
-    }`
+    `--hover-background: #232428;`
   }
   --margin: ${prop=>prop.$selected ? `8`:`0`};
   
   cursor: pointer;
   ${prop=>prop.$notAllow ? 
     `cursor: not-allowed; 
-    color: #8F9093;` : ""
+    color: #8F9093;` : `
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--hover-background); 
+      }
+    }`
   }
 
   @media screen and (max-width: 500px) {
