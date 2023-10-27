@@ -7,11 +7,11 @@ import BotState from "./Top/BotState";
 import { AniFrom } from "@/recoil/Top";
 
 export default function Profile(prop: {
-    $height: number;
-    $center: boolean;
-    $handler: ()=>any;
-    $popmsg: string
-    $fontratio: number;
+    height: number;
+    center: boolean;
+    handler: ()=>any;
+    popmsg: string
+    fontratio: number;
 }) {
     const [online, setOnline] = useRecoilState(Online);
     const aniFrom = useRecoilValue(AniFrom);
@@ -26,14 +26,14 @@ export default function Profile(prop: {
 
     return (
         <>
-        <Container $height={prop.$height} $center={prop.$center} $fontratio={prop.$fontratio} $from={aniFrom ? aniFrom : [prop.$height, prop.$fontratio, prop.$center]}>
+        <Container $height={prop.height} $center={prop.center} $fontratio={prop.fontratio} $from={aniFrom ? aniFrom : [prop.height, prop.fontratio, prop.center]}>
             <Banner/>
             <Frame>
-                <ProfileWrapper onClick={prop.$handler}>
+                <ProfileWrapper onClick={prop.handler}>
                     <Image src="/bot/profile.png" alt="profile"/>
-                    <GitView>{prop.$popmsg}</GitView>
+                    <GitView>{prop.popmsg}</GitView>
                 </ProfileWrapper>
-                <BotState online={online}/>
+                <BotState online={online} animation={!aniFrom}/>
             </Frame>
         </Container>
         </>
@@ -72,7 +72,7 @@ const Container = styled.div<{
     }
     ${css`animation: ${HeightAni} 1s 1;`}
     
-    * {
+    div:has(img) {
         font-size: calc(${prop=>`${prop.$height}px * ${prop.$fontratio}`});
         --font-size-from: calc(${prop=>`${prop.$from[0]}px * ${prop.$from[1]}`});
         @media screen and (max-width: 500px) {

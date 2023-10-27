@@ -24,10 +24,10 @@ export default function Review() {
   return (
     <>
     <Containter>
-        <Top $height={100} $center={false} $handler={()=>{
+        <Top height={100} center={false} handler={()=>{
             setAniFrom([100, 0.1, false]);
             router.push("/")
-        }} $popmsg="Home" $fontratio={0.1}/>
+        }} popmsg="Home" fontratio={0.1}/>
         <Reviews router={router}/>
     </Containter>
     </>

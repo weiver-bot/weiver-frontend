@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <>
     <Containter>
-      <Top $height={300} $center={true} $handler={()=>window.open("https://github.com/weiver-bot")} $popmsg="View Github" $fontratio={0.06}/>
+      <Top height={300} center={true} handler={()=>window.open("https://github.com/weiver-bot")} popmsg="View Github" fontratio={0.06}/>
       <Wrapper>
         <Card $router={router}/>
       </Wrapper>

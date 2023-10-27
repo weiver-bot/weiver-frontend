@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 export default function BotState(prop: {
     online: boolean;
+    animation: boolean;
 }) {
     return (
         <>
         <Wrapper>
-            <Frame>
+            <Frame $animation={prop.animation}>
                 {prop.online ? <Online/>:<Offline/>}
             </Frame>
         </Wrapper>
@@ -27,7 +28,9 @@ const Wrapper = styled.div`
     pointer-events: none;
 `
 
-const Frame = styled.div`
+const Frame = styled.div<{
+    $animation: boolean;
+}>`
     width: 35%;
     height: 35%;
     background: #313338;
@@ -40,7 +43,7 @@ const Frame = styled.div`
     position: relative;
     
     * {
-        animation: fadeIn 1s 1;
+        ${prop=>prop.$animation ? "animation: fadeIn 1s 1":""};
     }
 `
 
