@@ -3,20 +3,25 @@ import Top from '@/components/Top';
 import Card from '@/components/Card';
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const [isReady, setIsReady] = useState(false);
+
+
+  if (!router.isReady) {
+    return <Loading/>;
+  }
 
   return (
     <>
-    {router.isReady ? (
     <Containter>
       <Top $height={300} $center={true} $handler={()=>window.open("https://github.com/weiver-bot")} $popmsg="View Github" $fontratio={0.06}/>
       <Wrapper>
         <Card $router={router}/>
       </Wrapper>
     </Containter>
-    ) : <Loading/>}
     </>
   )
 }
