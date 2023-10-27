@@ -14,7 +14,7 @@ export default function CardButton(prop: {
 }
 
 const Wrapper = styled.div`
-  height: 71px;
+  height: 55px;
   border-radius: 5px;
   background: #4E5058;
 
@@ -33,8 +33,8 @@ const Wrapper = styled.div`
   }
   transition: all ease 0.2s 0s;
 
-  @media screen and (max-width: 800px) {
-    height: calc(71 * 100vw / 800);
+  @media screen and (max-width: 700px) {
+    height: calc(55 * 100vw / 700);
     border-radius: calc(5 * 100vw / 500);
   }
 `
@@ -48,7 +48,7 @@ const Text = styled.div`
   font-style: normal;
   font-weight: 600;
   
-  @media screen and (max-width: 800px) {
-    font-size: calc(18 * 100vw / 600);
+  @media screen and (max-width: 700px) {
+    font-size: calc(18 * 100vw / 525);
   }
 `

@@ -28,14 +28,14 @@ const Container = styled.div`
   align-items: flex-start;
 
   width: 100%;
-  padding: 0 0 5px 0;
+  height: 143px;
 
   color: #FFFFFF;
   font-family: DM Sans;
   white-space: nowrap;
   
   @media screen and (max-width: 500px) {
-    padding: 0 0 calc(5 * 100vw / 500) 0;
+    height: calc(143 * 100vw / 500);
   }
 
   div {
@@ -55,16 +55,16 @@ const Container = styled.div`
 const SecondRow = styled.div`
   display:flex;
 
-  position:relative;
-  --top:-42;
+  position:absolute;
+  --top:80;
 `
 
 const Name = styled.div`
   --font-size: 50;
   font-weight: 1000;
   
-  position:relative;
-  --top:-22;
+  position:absolute;
+  --top:25;
 `
 
 const ID = styled.div`
@@ -92,6 +92,6 @@ const Comment = styled.div`
   --font-size: 30;
   font-weight: 200;
 
-  position:relative;
-  --top: -12;
+  position:absolute;
+  --top: 155;
 `

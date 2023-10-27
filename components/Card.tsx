@@ -83,25 +83,25 @@ const Division = styled.div`
   transform: rotate(-0.09deg);
   
   background: #2E2F34;
+  transform: translateY(50%);
+  margin: 27px 0;
   
   @media screen and (max-width: 500px) {
     height: calc(3 * 100vw / 500);
-    top: calc(60 * 100vw / 500);
+    margin: calc(27 * 100vw / 500) 0;
   }
 `
 
 const ButtonContainer = styled.div`
   width: 100%;
-  padding: 27px 0 0 0;
   display: flex;
   flex-direction: column;
-  
-  @media screen and (max-width: 500px) {
-    padding: calc(27 * 100vw / 500) 0 0 0;
-  }
 
   > *:nth-child(n+2) {
-    padding: 2% 0 0 0;
+    padding: 15px 0 0 0;
+    @media screen and (max-width: 700px) {
+      padding: calc(15 * 100vw / 700) 0 0 0;
+    }
   }
 `
 
@@ -115,6 +115,9 @@ const Row = styled.div`
 	  flex: 1 1 0;
   }
   :nth-child(n+2) {
-    margin-left:2%;
+    margin-left:15px;
+    @media screen and (max-width: 700px) {
+      margin-left: calc(15 * 100vw / 700);
+    }
   }
 `
