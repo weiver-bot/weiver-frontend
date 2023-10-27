@@ -38,7 +38,7 @@ body .scroll {
 @keyframes move {
   /* keyframe */
   from {
-    top: 10lvh;
+    top: 5lvh;
   }
   /* keyframe */
   to {
