@@ -7,16 +7,18 @@ import Loading from "@/components/Loading";
 export default function Home() {
   const router = useRouter();
 
-  return router.isReady ? (
+  return (
     <>
+    {router.isReady ? (
     <Containter>
       <Top $height={300} $center={true} $handler={()=>window.open("https://github.com/weiver-bot")} $popmsg="View Github" $fontratio={0.06}/>
       <Wrapper>
         <Card $router={router}/>
       </Wrapper>
     </Containter>
+    ) : <Loading/>}
     </>
-  ) : <Loading/>;
+  )
 }
 
 const Containter = styled.div`

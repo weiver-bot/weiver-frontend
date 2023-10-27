@@ -11,17 +11,19 @@ export default function Review() {
 
   const [_, setAniFrom] = useRecoilState(AniFrom);
 
-  return router.isReady ? (
+  return (
     <>
-    <Containter>
-        <Top $height={100} $center={false} $handler={()=>{
-            setAniFrom([100, 0.1, false]);
-            router.push("/")
-        }} $popmsg="Home" $fontratio={0.1}/>
-        <Reviews router={router}/>
-    </Containter>
+    {router.isReady ? (
+        <Containter>
+            <Top $height={100} $center={false} $handler={()=>{
+                setAniFrom([100, 0.1, false]);
+                router.push("/")
+            }} $popmsg="Home" $fontratio={0.1}/>
+            <Reviews router={router}/>
+        </Containter>
+    ) : <Loading/>}
     </>
-  ) : <Loading/>
+  )
 }
 
 const Containter = styled.div`
