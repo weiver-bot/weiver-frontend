@@ -2,7 +2,7 @@ import { css, keyframes, styled } from "styled-components";
 import { useEffect } from 'react';
 import GetState from "@/api/state/get";
 import { Online } from "@/recoil/bot";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import BotState from "./Top/BotState";
 import { AniFrom } from "@/recoil/Top";
 
@@ -14,7 +14,7 @@ export default function Profile(prop: {
     $fontratio: number;
 }) {
     const [online, setOnline] = useRecoilState(Online);
-    const [aniFrom, setAniFrom] = useRecoilState(AniFrom);
+    const aniFrom = useRecoilValue(AniFrom);
 
     useEffect(() => {
         GetState().then(()=>{
