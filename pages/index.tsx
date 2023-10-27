@@ -3,14 +3,17 @@ import Top from '@/components/Top';
 import Card from '@/components/Card';
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
 
+  useEffect(()=>{
+    setIsReady(router.isReady);
+  }, [router]);
 
-  if (!router.isReady) {
+  if (!isReady) {
     return <Loading/>;
   }
 

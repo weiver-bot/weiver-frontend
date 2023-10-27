@@ -15,7 +15,7 @@ export default function Review() {
 
   useEffect(()=>{
     setIsReady(router.isReady);
-  }, [router.isReady]);
+  }, [router]);
 
   if (!isReady) {
     return <Loading/>;
