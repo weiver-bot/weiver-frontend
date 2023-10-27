@@ -150,7 +150,7 @@ const Image = styled.img`
 `
 
 const GitView = styled.text`
-    position:absolute;
+    position: absolute;
     font-family: DM Sans;
 
     font-style: normal;

@@ -5,6 +5,7 @@ import ReviewCard from "./Reviews/ReviewCard";
 import PageSelector from "./Reviews/PageSelector";
 import { NextRouter } from "next/router";
 import Loading from "./Loading";
+import OptionSelector from "./Reviews/OptionSelector";
 
 interface ReviewData {
     page: number;
@@ -17,6 +18,8 @@ export default function Reviews(prop: {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [path, setPath] = useState<null|ReviewData>(null);
     const [limit, setLimit] = useState(1);
+
+    const [select, setSelect] = useState(0);
 
     const router = prop.router;
     useEffect(()=>{
@@ -54,25 +57,36 @@ export default function Reviews(prop: {
         });
     }, [path])
 
-    const handler = (e: number) => {
+    const PageSelectorHandle = (e: number) => {
         var sort = router.query["sort"];
         router.push(`/review?${sort ? `sort=${sort}&`:``}page=${e}`);
+    }
+    const OptionSelectorHandle = (url: string, e: number) => {
+        router.push(url);
+        setSelect(e);
     }
     return (
         <>
         <Wrapper>
-            <Title>REVIEWS</Title>
+            <Top>
+                <Title>REVIEWS</Title>
+                <OptionSelector select={select} router={router}>
+                    {["Sort by likes", e=>OptionSelectorHandle("/review", e)]}
+                    {["Sort by creation time", e=>OptionSelectorHandle("/review?sort=time", e)]}
+                </OptionSelector>
+            </Top>
             <Container> 
             {reviews.length ? "" : <Loading/>}
             {reviews?.map((v) => (
                 <ReviewCard key={`${v.id}#${v.timestamp}`} data={v} />
             ))}
             </Container>
-            {path ? <PageSelector page={path.page} limit={limit} handler={handler}/>:""}
+            {path ? <PageSelector page={path.page} limit={limit} handler={PageSelectorHandle}/>:""}
         </Wrapper>
         </>
     );
 }
+
 
 const Wrapper = styled.div`
     width: 90%;
@@ -88,9 +102,10 @@ const Wrapper = styled.div`
     position: relative;
     animation: move 1s 1, fadeIn 1s 1;
 `
-const Container = styled.div`
+
+const Top = styled.div`
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
 `
 
 const Title = styled.div`
@@ -105,4 +120,10 @@ const Title = styled.div`
     @media screen and (max-width: 500px) {
         font-size: calc(20 * 100vw / 375);
     }
+`
+
+const Container = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
 `

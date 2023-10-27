@@ -88,7 +88,7 @@ const Input = styled.input`
   font-size: 8pt;
   color: #FFFFFF;
 
-  background-color: #1E1F22;
+  background: #1E1F22;
   outline: none;
 
   padding: 7px;

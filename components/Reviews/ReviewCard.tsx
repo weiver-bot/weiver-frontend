@@ -48,25 +48,25 @@ const Color = styled.div`
   flex-shrink: 0;
   width: 10px;
   background: #1E1F22;
-  border-radius: 10px 0 0 10px;
+  --radius-value: 10px;
 
   @media screen and (max-width: 500px) {
     --radius-value: calc(10 * 100vw / 500);
-    boarder-radius: 0 var(--radius-value) var(--radius-value) 0;
     width: calc(10 * 100vw / 500);
   }
+  border-radius: var(--radius-value) 0 0 var(--radius-value);
 `
 
 const Container = styled.div`
   width: 100%;
   flex-grow: 1;
   background: #2B2D31;
-  border-radius: 0 10px 10px 0;
+  --radius-value: 10px;
   
   @media screen and (max-width: 500px) {
     --radius-value: calc(10 * 100vw / 500);
-    boarder-radius: 0 var(--radius-value) var(--radius-value) 0;
   }
+  border-radius: 0 var(--radius-value) var(--radius-value) 0;
 `
 
 const Title = styled.div`
@@ -108,8 +108,10 @@ const Content = styled.div`
   
   @media screen and (max-width: 500px) {
     font-size: calc(13 * 100vw / 450);
+    border-radius: calc(5 * 100vw / 500);
     padding: calc(5 * 100vw / 500) calc(10 * 100vw / 500);
   }
+  
 `
 
 const Footer = styled.div`

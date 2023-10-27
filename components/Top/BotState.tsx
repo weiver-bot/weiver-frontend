@@ -7,8 +7,9 @@ export default function BotState(prop: {
     return (
         <>
         <Wrapper>
-            <Frame $animation={prop.animation}>
-                {prop.online ? <Online/>:<Offline/>}
+            <Frame>
+                <Offline/>
+                {prop.online ? <Online $animation={prop.animation}/>:""}
             </Frame>
         </Wrapper>
         </>
@@ -28,9 +29,7 @@ const Wrapper = styled.div`
     pointer-events: none;
 `
 
-const Frame = styled.div<{
-    $animation: boolean;
-}>`
+const Frame = styled.div`
     width: 35%;
     height: 35%;
     background: #313338;
@@ -41,20 +40,22 @@ const Frame = styled.div<{
     justify-content: center;
 
     position: relative;
-    
-    * {
-        ${prop=>prop.$animation ? "animation: fadeIn 1s 1":""};
-    }
 `
 
-const Online = styled.div`
+const Online = styled.div<{
+    $animation: boolean;
+}>`
     width: 62%;
     height: 62%;
     background: #23A55A;
     border-radius: 50%;
+    z-index: 2;
+    
+    ${prop=>prop.$animation ? "animation: fadeIn 1s 1;":""}
 `
 
 const Offline = styled.div`
+    position: absolute;
     width: 62%;
     height: 62%;
     background: #80848E;
@@ -62,10 +63,10 @@ const Offline = styled.div`
     &::before {
         content: "";
         position: absolute;
-        top: 35%;
-        bottom: 35%;
-        left: 35%;
-        right: 35%;
+        top: 30%;
+        bottom: 30%;
+        left: 30%;
+        right: 30%;
         background: #313338;
         border-radius: 50%;
     }

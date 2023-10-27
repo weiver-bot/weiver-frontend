@@ -15,8 +15,8 @@ export default function CardButton(prop: {
 
 const Wrapper = styled.div`
   height: 71px;
-  border-radius: 10px;
-  background-color: #4E5058;
+  border-radius: 5px;
+  background: #4E5058;
 
   display: flex;
   justify-content: center;
@@ -25,17 +25,17 @@ const Wrapper = styled.div`
   cursor: pointer;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: #6D6F78;
+      background: #6D6F78;
     }
   }
   &:active {
-    background-color: #80848E;
+    background: #80848E;
   }
   transition: all ease 0.2s 0s;
 
   @media screen and (max-width: 800px) {
     height: calc(71 * 100vw / 800);
-    border-radius: calc(10 * 100vw / 500);
+    border-radius: calc(5 * 100vw / 500);
   }
 `
 
@@ -44,11 +44,11 @@ const Text = styled.div`
   font-family: DM Sans;
   white-space: nowrap;
 
-  font-size: 20pt;
+  font-size: 18pt;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   
   @media screen and (max-width: 800px) {
-    font-size: calc(20 * 100vw / 600);
+    font-size: calc(18 * 100vw / 600);
   }
 `

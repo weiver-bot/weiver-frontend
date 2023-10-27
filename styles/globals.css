@@ -56,3 +56,14 @@ body .scroll {
     opacity: 100;
   }
 }
+
+@keyframes fadeOut {
+  /* keyframe */
+  from {
+    opacity: 100;
+  }
+  /* keyframe */
+  to {
+    opacity: 0;
+  }
+}
