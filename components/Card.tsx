@@ -32,16 +32,20 @@ export default function Card(prop: {
         <CardInfo name={state.name} id={state.id} comment={state.state}/>
         <Division/>
         <ButtonContainer>
-          <CardButton text={"Add to Server"} handler={()=>{
-            window.open(url.invite);
-          }}/>
-          <CardButton text={"Reviews"} handler={()=>{
-            setAniFrom([300, 0.06, true]);
-            prop.$router.push("/review")
-          }}/>
-          <CardButton text={"Community"} handler={()=>{
-            window.open(url.community);
-          }}/>
+          <Row>
+            <CardButton text={"Reviews"} handler={()=>{
+              setAniFrom([300, 0.06, true]);
+              prop.$router.push("/review")
+            }}/>
+          </Row>
+          <Row>
+            <CardButton text={"Add to Server"} handler={()=>{
+              window.open(url.invite);
+            }}/>
+            <CardButton text={"Community"} handler={()=>{
+              window.open(url.community);
+            }}/>
+          </Row>
         </ButtonContainer>
       </Container>
     </Wrapper>
@@ -87,15 +91,25 @@ const Division = styled.div`
 `
 
 const ButtonContainer = styled.div`
-  padding: 27px 0 0 0;
   width: 100%;
-
+  padding: 27px 0 0 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   
   @media screen and (max-width: 500px) {
     padding: calc(27 * 100vw / 500) 0 0 0;
   }
+
+  > *:nth-child(n+2) {
+    padding: 2% 0 0 0;
+  }
+`
+
+const Row = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
 
   > * {
 	  flex: 1 1 0;
