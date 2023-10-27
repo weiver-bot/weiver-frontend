@@ -85,6 +85,7 @@ const Wrapper = styled.div`
     @media screen and (max-width: 500px) {
         padding: calc(5 * 100vw / 500) 0;
     }
+    position: relative;
     animation: move 1s 1, fadeIn 1s 1;
 `
 const Container = styled.div`
