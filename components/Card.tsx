@@ -7,28 +7,21 @@ import GetURL from "@/api/url/get";
 import { NextRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { AniFrom } from "@/recoil/Top";
+import { State, URL } from "@/recoil/bot";
 
 export default function Card(prop: {
   $router: NextRouter
 }) {
-  const [name, setName] = useState("WEIVER")
-  const [id, setID] = useState("WEIVER#2142")
-  const [state, setState] = useState("Hello, I am WEIVER")
-
-  const [inviteURL, setInviteURL] = useState("https://discord.com/oauth2/authorize?client_id=1152529500689666088&permissions=268438528&scope=bot%20applications.commands")
-  const [communityURL, setCommunityURL] = useState("https://discord.gg/n2sn6CSeXZ");
-
   const [_, setAniFrom] = useRecoilState(AniFrom);
+  const [state, setState] = useRecoilState(State);
+  const [url, setURL] = useRecoilState(URL);
   
   useEffect(() => {
     GetState().then(res=>{
-      setName(res.name);
-      setID(res.id);
-      setState(res.state);
+      setState(res);
     }).catch(()=>{})
     GetURL().then(res=>{
-      setInviteURL(res.invite);
-      setCommunityURL(res.community);
+      setURL(res);
     }).catch(()=>{})
   }, []);
 
@@ -36,18 +29,18 @@ export default function Card(prop: {
     <>
     <Wrapper>
       <Container>
-        <CardInfo name={name} id={id} comment={state}/>
+        <CardInfo name={state.name} id={state.id} comment={state.state}/>
         <Division/>
         <ButtonContainer>
           <CardButton text={"Add to Server"} handler={()=>{
-          window.open(inviteURL);
+            window.open(url.invite);
           }}/>
           <CardButton text={"Reviews"} handler={()=>{
             setAniFrom([300, 0.06, true]);
             prop.$router.push("/review")
           }}/>
           <CardButton text={"Community"} handler={()=>{
-            window.open(communityURL)
+            window.open(url.community);
           }}/>
         </ButtonContainer>
       </Container>
