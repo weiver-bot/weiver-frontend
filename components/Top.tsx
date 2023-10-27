@@ -72,7 +72,7 @@ const Container = styled.div<{
     }
     ${css`animation: ${HeightAni} 1s 1;`}
     
-    div:has(img) {
+    text {
         font-size: calc(${prop=>`${prop.$height}px * ${prop.$fontratio}`});
         --font-size-from: calc(${prop=>`${prop.$from[0]}px * ${prop.$from[1]}`});
         @media screen and (max-width: 500px) {
@@ -149,7 +149,7 @@ const Image = styled.img`
     height: 80%;
 `
 
-const GitView = styled.div`
+const GitView = styled.text`
     position:absolute;
     font-family: DM Sans;
 
