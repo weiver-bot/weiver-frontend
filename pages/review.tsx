@@ -4,13 +4,14 @@ import { useRouter } from "next/router";
 import Top from "@/components/Top";
 import { useRecoilState } from "recoil";
 import { AniFrom } from "@/recoil/Top";
+import Loading from "@/components/Loading";
 
 export default function Review() {
   const router = useRouter();
 
   const [_, setAniFrom] = useRecoilState(AniFrom);
 
-  return (
+  return router.isReady ? (
     <>
     <Containter>
         <Top $height={100} $center={false} $handler={()=>{
@@ -20,7 +21,7 @@ export default function Review() {
         <Reviews router={router}/>
     </Containter>
     </>
-  )
+  ) : <Loading/>
 }
 
 const Containter = styled.div`
