@@ -24,7 +24,7 @@ export default function useLoadReviews() {
             url += `&orderby=${orderby}`
         }
         if (user) {
-            url += `&user=${user}`
+            url += `&user=${user.id}`
         }
         const res = await axios.get<Review[]>(url);
 
