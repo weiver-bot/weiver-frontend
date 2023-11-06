@@ -3,8 +3,7 @@ import { styled } from "styled-components";
 import CheckBox from "../CheckBox";
 
 export default function Selector(prop: {
-    children?: [string, (e: number)=>any][];
-    select: number;
+    children?: [number, [string, (e: number)=>any][]][];
     router: any;
 }) {
   const [press, setPress] = useState(false); 
@@ -33,14 +32,19 @@ export default function Selector(prop: {
         </Button>
         {press && (
           <Box ref={boxRef}>
-          {prop.children?.map((v, i) => (
-            <List key={v[0]} onClick={()=>{v[1](i)}}>
-              <Title key={v[0]}>{v[0]}</Title>
-              <CheckBoxWrapper>
-                <CheckBox check={i == prop.select} size={17}/>
-              </CheckBoxWrapper>
-            </List>
-          ))}
+          {prop.children?.map(e => {
+            var [select, list] = e
+            return list.map((e, i) => {
+              return (
+                <List key={e[0]} onClick={()=>{e[1](i)}}>
+                  <Title key={e[0]}>{e[0]}</Title>
+                  <CheckBoxWrapper>
+                    <CheckBox check={i == select} size={17}/>
+                  </CheckBoxWrapper>
+                </List>
+              )
+            })
+          })}
           </Box>
         )}
       </Wrapper>

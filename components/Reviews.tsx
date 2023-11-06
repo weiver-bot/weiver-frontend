@@ -7,8 +7,9 @@ import Loading from "./Loading";
 import OptionSelector from "./Reviews/OptionSelector";
 import useReviewState from "@/lib/hooks/useAxiosState";
 import useLoadReviews, { ReviewsOnPage } from "@/lib/hooks/useAxiosReview";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { Reviews } from "@/lib/recoil/reviews";
+import { User } from "@/lib/recoil/auth";
 
 interface ReviewData {
     page: number;
@@ -20,6 +21,7 @@ export default function ReviewList(prop: {
 }) {
     const LoadReviews = useLoadReviews();
     const [reviews, setReviews] = useRecoilState(Reviews);
+    const user = useRecoilValue(User);
 
     const [path, setPath] = useState<null|ReviewData>(null);
     const state = useReviewState();
@@ -80,9 +82,13 @@ export default function ReviewList(prop: {
         <Wrapper>
             <Top>
                 <Title>REVIEWS</Title>
-                <OptionSelector select={select} router={router}>
-                    {["Sort by likes", e=>OptionSelectorHandle("/review", e)]}
-                    {["Sort by creation time", e=>OptionSelectorHandle("/review?sort=time", e)]}
+                <OptionSelector router={router}>
+                    {[[
+                        select, [
+                            ["Sort by likes", e=>OptionSelectorHandle("/review", e)],
+                            ["Sort by creation time", e=>OptionSelectorHandle("/review?sort=time", e)]
+                        ]
+                    ]]}
                 </OptionSelector>
             </Top>
             <Container> 
