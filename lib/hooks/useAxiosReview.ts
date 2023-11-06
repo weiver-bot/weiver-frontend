@@ -12,7 +12,6 @@ export const ReviewsOnPage = (()=>{
 })()
 
 export default function useLoadReviews() {
-    const user = useRecoilValue(User);
     const [_, setReviews] = useRecoilState(Reviews);
     
     const LoadReviews = async (
@@ -22,9 +21,6 @@ export default function useLoadReviews() {
         var url = process.env.API_URL + `/reviews/list?from=${(page - 1)*ReviewsOnPage}&count=${ReviewsOnPage}`
         if (orderby) {
             url += `&orderby=${orderby}`
-        }
-        if (user) {
-            url += `&user=${user.id}`
         }
         const res = await axios.get<Review[]>(url);
 
