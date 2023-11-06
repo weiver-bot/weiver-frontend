@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { keyframes, styled } from "styled-components";
+import { styled } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { AccessToken, User } from "@/lib/recoil/auth";
+import { User } from "@/lib/recoil/auth";
 import { useAxiosAuth } from "@/lib/hooks/useAxiosAuth";
 import Loading from "./Loading";
 import { AniFrom } from "@/lib/recoil/top";

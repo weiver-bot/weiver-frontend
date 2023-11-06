@@ -59,10 +59,12 @@ export default function ReviewList(prop: {
 
         var limit = Math.ceil(state.count / ReviewsOnPage);
         setLimit(limit);
-        if (path.page < 1 || limit < path.page) {
-            return router.push('/review?page=1');
-        }
-        LoadReviews(path.page, path.query);
+        (async () =>{
+            if (path.page < 1 || limit < path.page) {
+                return router.push('/review?page=1');
+            }
+           LoadReviews(path.page, path.query);
+        })()
     }, [path])
 
     const PageSelectorHandle = (e: number) => {
