@@ -5,11 +5,11 @@ import PageSelector from "./Reviews/PageSelector";
 import { NextRouter } from "next/router";
 import Loading from "./Loading";
 import OptionSelector from "./Reviews/OptionSelector";
-import useReviewState from "@/lib/hooks/useAxiosState";
 import useLoadReviews, { ReviewsOnPage } from "@/lib/hooks/useAxiosReview";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Reviews } from "@/lib/recoil/reviews";
 import { User } from "@/lib/recoil/auth";
+import useReviewCount from "@/lib/hooks/useAxiosCount";
 
 interface ReviewData {
     page: number;
@@ -22,14 +22,19 @@ export default function ReviewList(prop: {
     const LoadReviews = useLoadReviews();
     const [reviews, setReviews] = useRecoilState(Reviews);
     const user = useRecoilValue(User);
+    const [count, loadCount] = useReviewCount();
 
     const [path, setPath] = useState<null|ReviewData>(null);
-    const state = useReviewState();
 
     const [limit, setLimit] = useState(1);
-    const [select, setSelect] = useState(0);
+    const [sortType, setSortType] = useState(0);
+    const [filterType, setFilterType] = useState(-1);
 
     const router = prop.router;
+
+    useEffect(()=>{
+        loadCount(filterType==0);
+    }, [filterType])
 
     useEffect(()=>{
         if (!router || !router.isReady) return;
@@ -37,11 +42,11 @@ export default function ReviewList(prop: {
         var page = Number(router.query["page"]), query = undefined;
         switch (router.query["sort"]) {
             case undefined:
-                setSelect(0);
+                setSortType(0);
                 break;
             case "time":
                 query = "Time_Stamp desc";
-                setSelect(1);
+                setSortType(1);
                 break;
             default:
                 router.replace(`/review?page=${page ? page : 1}`);
@@ -54,20 +59,20 @@ export default function ReviewList(prop: {
         setReviews([]);
         if (path == null) return;
         
-        if (!state) {
+        if (!count) {
             setLimit(1);
             return;
         }
 
-        var limit = Math.ceil(state.count / ReviewsOnPage);
+        var limit = Math.ceil(count / ReviewsOnPage);
         setLimit(limit);
         (async () =>{
             if (path.page < 1 || limit < path.page) {
                 return router.push('/review?page=1');
             }
-           LoadReviews(path.page, path.query);
+           LoadReviews(path.page, !filterType, path.query);
         })()
-    }, [path])
+    }, [path, count])
 
     const PageSelectorHandle = (e: number) => {
         var sort = router.query["sort"];
@@ -75,7 +80,7 @@ export default function ReviewList(prop: {
     }
     const OptionSelectorHandle = (url: string, e: number) => {
         router.push(url);
-        setSelect(e);
+        setSortType(e);
     }
     return (
         <>
@@ -83,12 +88,20 @@ export default function ReviewList(prop: {
             <Top>
                 <Title>REVIEWS</Title>
                 <OptionSelector router={router}>
-                    {[[
-                        select, [
+                    {[
+                        sortType, [
                             ["Sort by likes", e=>OptionSelectorHandle("/review", e)],
                             ["Sort by creation time", e=>OptionSelectorHandle("/review?sort=time", e)]
                         ]
-                    ]]}
+                    ]}
+                    {user && [
+                        filterType, [
+                            ["Related to me", ()=>{
+                                setFilterType(filterType ? 0 : -1);
+                                PageSelectorHandle(sortType);
+                            }],
+                        ]
+                    ]}
                 </OptionSelector>
             </Top>
             <Container> 

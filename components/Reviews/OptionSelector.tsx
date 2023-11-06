@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import CheckBox from "../CheckBox";
 
 export default function Selector(prop: {
-    children?: [number, [string, (e: number)=>any][]][];
+    children?: ([number, [string, (e: number)=>any][]]|undefined)[];
     router: any;
 }) {
   const [press, setPress] = useState(false); 
@@ -33,6 +33,7 @@ export default function Selector(prop: {
         {press && (
           <Box ref={boxRef}>
           {prop.children?.map(e => {
+            if (e == undefined) return;
             var [select, list] = e
             return list.map((e, i) => {
               return (
