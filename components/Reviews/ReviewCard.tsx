@@ -7,7 +7,7 @@ export default function ReviewCard(prop: {
   const date = new Date(prop.data.timestamp);
   return (
     <>
-    <Wrapper onClick={()=>prop.data.permission && window.open(`${prop.data.URL}`)}>
+    <Wrapper onClick={()=>window.open(`${prop.data.URL}`)}>
         <Color/>
         <Container>
           <Title>📝{prop.data.title} [{"★".repeat(prop.data.score).padEnd(5,"☆")}]</Title>
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       div {
-        filter: brightness(0.8);
+        filter: brightness(0.9);
       }
     }
   }
