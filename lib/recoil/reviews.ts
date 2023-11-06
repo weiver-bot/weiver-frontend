@@ -8,7 +8,6 @@ export interface Review {
     likes: number;
     timestamp: Date;
     URL: string;
-    permission: boolean;
 }
 
 export const Reviews = atom<Review[]>({

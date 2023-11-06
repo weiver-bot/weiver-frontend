@@ -7,7 +7,7 @@ export default function ReviewCard(prop: {
   const date = new Date(prop.data.timestamp);
   return (
     <>
-    <Wrapper $permission={prop.data.permission} onClick={()=>prop.data.permission && window.open(`${prop.data.URL}`)}>
+    <Wrapper onClick={()=>prop.data.permission && window.open(`${prop.data.URL}`)}>
         <Color/>
         <Container>
           <Title>📝{prop.data.title} [{"★".repeat(prop.data.score).padEnd(5,"☆")}]</Title>
@@ -21,9 +21,7 @@ export default function ReviewCard(prop: {
   );
 }
 
-const Wrapper = styled.div<{
-  $permission: boolean
-}>`
+const Wrapper = styled.div`
   flex-grow: 1;
   width: 100%;
   display: flex;
@@ -34,7 +32,6 @@ const Wrapper = styled.div<{
     margin: calc(20 * 100vw / 500) 0 0 0;
   }
   
-  ${prop=>prop.$permission ? `
   cursor: pointer;
   div {
     filter: brightness(1.0);
@@ -46,9 +43,6 @@ const Wrapper = styled.div<{
       }
     }
   }
-  ` : `
-  cursor: not-allowed; 
-  `}
 `
 
 const Color = styled.div`
