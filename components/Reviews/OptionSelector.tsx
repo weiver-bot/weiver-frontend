@@ -31,7 +31,7 @@ export default function Selector(prop: {
         <Button $pressed={press} onClick={()=>setPress(!press)} ref={buttonRef}>
           <Image src="/filter.svg" alt="filter"/>
         </Button>
-        {press ? (
+        {press && (
           <Box ref={boxRef}>
           {prop.children?.map((v, i) => (
             <List key={v[0]} onClick={()=>{v[1](i)}}>
@@ -42,7 +42,7 @@ export default function Selector(prop: {
             </List>
           ))}
           </Box>
-        ) : ""}
+        )}
       </Wrapper>
     </>
   );
@@ -53,7 +53,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 7px 0 0 0;
+  padding: 2.5px 0 0 0;
 `
 
 const Button = styled.div<{
@@ -115,12 +115,14 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
 
+  --shadow: 5px;
+  box-shadow: 0 var(--shadow) calc(var(--shadow) * 2) rgba(0,0,0,0.5);
+
   @media screen and (max-width: 500px) {
     top: calc(55 * 100vw / 500);
     --padding: calc(5 * 100vw / 500);
+    --shadow: calc(8 * 100vw / 500);
   }
-  
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
 `
 
 const List = styled.div`

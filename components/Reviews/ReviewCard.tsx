@@ -1,26 +1,29 @@
+import { Review } from "@/lib/recoil/reviews";
 import { styled } from "styled-components";
-import { Review } from "@/api/review/get";
 
 export default function ReviewCard(prop: {
   data: Review;
 }) {
+  const date = new Date(prop.data.timestamp);
   return (
     <>
-    <Wrapper onClick={()=>window.open(prop.data.url)}>
+    <Wrapper $permission={prop.data.permission} onClick={()=>prop.data.permission && window.open(`${prop.data.URL}`)}>
         <Color/>
         <Container>
-          <Title>📝{prop.data.title} [{prop.data.score}]</Title>
+          <Title>📝{prop.data.title} [{"★".repeat(prop.data.score).padEnd(5,"☆")}]</Title>
           <ContentWrapper>
             <Content>{prop.data.content}</Content>
           </ContentWrapper>
-          <Footer>👍 {prop.data.like} • {prop.data.timestamp}</Footer>
+          <Footer>👍 {prop.data.likes} • {date.toLocaleString()}</Footer>
         </Container>
     </Wrapper>
     </>
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{
+  $permission: boolean
+}>`
   flex-grow: 1;
   width: 100%;
   display: flex;
@@ -31,6 +34,7 @@ const Wrapper = styled.div`
     margin: calc(20 * 100vw / 500) 0 0 0;
   }
   
+  ${prop=>prop.$permission ? `
   cursor: pointer;
   div {
     filter: brightness(1.0);
@@ -42,6 +46,9 @@ const Wrapper = styled.div`
       }
     }
   }
+  ` : `
+  cursor: not-allowed; 
+  `}
 `
 
 const Color = styled.div`

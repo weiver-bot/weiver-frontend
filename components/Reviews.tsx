@@ -1,36 +1,45 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from 'react';
-import { GetReviewOnPage, GetReviewsCount, Review, ReviewOnPage } from "@/api/review/get";
 import ReviewCard from "./Reviews/ReviewCard";
 import PageSelector from "./Reviews/PageSelector";
 import { NextRouter } from "next/router";
 import Loading from "./Loading";
 import OptionSelector from "./Reviews/OptionSelector";
+import useReviewState from "@/lib/hooks/useAxiosState";
+import useLoadReviews, { ReviewsOnPage } from "@/lib/hooks/useAxiosReview";
+import { useRecoilState } from "recoil";
+import { Reviews } from "@/lib/recoil/reviews";
 
 interface ReviewData {
     page: number;
     query?: string;
 }
 
-export default function Reviews(prop: {
+export default function ReviewList(prop: {
     router: NextRouter;
 }) {
-    const [reviews, setReviews] = useState<Review[]>([]);
-    const [path, setPath] = useState<null|ReviewData>(null);
-    const [limit, setLimit] = useState(1);
+    const LoadReviews = useLoadReviews();
+    const [reviews, setReviews] = useRecoilState(Reviews);
 
+    const [path, setPath] = useState<null|ReviewData>(null);
+    const state = useReviewState();
+
+    const [limit, setLimit] = useState(1);
     const [select, setSelect] = useState(0);
 
     const router = prop.router;
+
     useEffect(()=>{
         if (!router || !router.isReady) return;
 
         var page = Number(router.query["page"]), query = undefined;
         switch (router.query["sort"]) {
+            case undefined:
+                setSelect(0);
+                break;
             case "time":
                 query = "Time_Stamp desc";
-                break;
-            case undefined:
+                setSelect(1);
                 break;
             default:
                 router.replace(`/review?page=${page ? page : 1}`);
@@ -43,18 +52,17 @@ export default function Reviews(prop: {
         setReviews([]);
         if (path == null) return;
         
-        GetReviewsCount().then(async res=>{
-            var limit = Math.ceil(res.count / ReviewOnPage);
-            setLimit(limit);
-            if (path.page < 1 || limit < path.page) return router.push('/review?page=1');
+        if (!state) {
+            setLimit(1);
+            return;
+        }
 
-            var reviews = await GetReviewOnPage(path.page, path.query).catch(()=>{});
-            if (!reviews) return router.push('/review?page=1');
-
-            setReviews(reviews);
-        }).catch(()=>{
-            setLimit(1)
-        });
+        var limit = Math.ceil(state.count / ReviewsOnPage);
+        setLimit(limit);
+        if (path.page < 1 || limit < path.page) {
+            return router.push('/review?page=1');
+        }
+        LoadReviews(path.page, path.query);
     }, [path])
 
     const PageSelectorHandle = (e: number) => {
@@ -76,12 +84,12 @@ export default function Reviews(prop: {
                 </OptionSelector>
             </Top>
             <Container> 
-            {reviews.length ? "" : <Loading/>}
+            {!reviews.length && <Loading/>}
             {reviews?.map((v) => (
-                <ReviewCard key={`${v.id}#${v.timestamp}`} data={v} />
+                <ReviewCard key={`${v.id}#${v.timestamp}`} data={v}/>
             ))}
             </Container>
-            {path ? <PageSelector page={path.page} limit={limit} handler={PageSelectorHandle}/>:""}
+            {path && <PageSelector page={path.page} limit={limit} handler={PageSelectorHandle}/>}
         </Wrapper>
         </>
     );
@@ -89,15 +97,16 @@ export default function Reviews(prop: {
 
 
 const Wrapper = styled.div`
-    width: 90%;
+    width: 100%;
+    --padding: 40px;
+    padding: 0 var(--padding) var(--padding) var(--padding);
     
     display: flex;
     flex-direction: column;
     align-itmes: flex-start;
 
-    padding: 5px 0;
     @media screen and (max-width: 500px) {
-        padding: calc(5 * 100vw / 500) 0;
+        --padding: calc(40 * 100vw / 500);
     }
     position: relative;
     animation: move 1s 1, fadeIn 1s 1;

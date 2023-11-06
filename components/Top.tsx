@@ -1,12 +1,12 @@
 import { css, keyframes, styled } from "styled-components";
 import { useEffect } from 'react';
-import GetState from "@/api/state/get";
-import { Online } from "@/recoil/bot";
+import { Online } from "@/lib/recoil/bot";
 import { useRecoilState, useRecoilValue } from "recoil";
 import BotState from "./Top/BotState";
-import { AniFrom } from "@/recoil/Top";
+import { AniFrom } from "@/lib/recoil/top";
+import useReviewState from "@/lib/hooks/useAxiosState";
 
-export default function Profile(prop: {
+export default function Top(prop: {
     height: number;
     center: boolean;
     handler: ()=>any;
@@ -15,23 +15,25 @@ export default function Profile(prop: {
 }) {
     const [online, setOnline] = useRecoilState(Online);
     const aniFrom = useRecoilValue(AniFrom);
+    const state = useReviewState();
 
     useEffect(() => {
-        GetState().then(()=>{
-            setOnline(true);
-        }).catch(()=>{
-            setOnline(false);
-        })
-    }, []);
+        setOnline(state.count != 0)
+    }, [state]);
 
     return (
         <>
-        <Container $height={prop.height} $center={prop.center} $fontratio={prop.fontratio} $from={aniFrom ? aniFrom : [prop.height, prop.fontratio, prop.center]}>
+        <Container 
+            $height={prop.height} 
+            $center={prop.center} 
+            $fontratio={prop.fontratio} 
+            $from={aniFrom ? aniFrom : [prop.height, prop.fontratio, prop.center]
+        }>
             <Banner/>
             <Frame>
                 <ProfileWrapper onClick={prop.handler}>
                     <Image src="/bot/profile.png" alt="profile"/>
-                    <GitView>{prop.popmsg}</GitView>
+                    <GitView id="text">{prop.popmsg}</GitView>
                 </ProfileWrapper>
                 <BotState online={online} animation={!aniFrom}/>
             </Frame>
@@ -72,7 +74,7 @@ const Container = styled.div<{
     }
     ${css`animation: ${HeightAni} 1s 1;`}
     
-    text {
+    div[id=text] {
         font-size: calc(${prop=>`${prop.$height}px * ${prop.$fontratio}`});
         --font-size-from: calc(${prop=>`${prop.$from[0]}px * ${prop.$from[1]}`});
         @media screen and (max-width: 500px) {
@@ -88,14 +90,20 @@ const Container = styled.div<{
             left: 50%;
         `: `
             transform: translateY(-50%);
-            left: 5%;
+            left: 40px;
+            @media screen and (max-width: 500px) {
+                left: calc(40 * 100vw / 500);
+            }
         `}
         ${prop=>prop.$from[2] ? `
             --transform-from: translate(-50%, -50%);
             --left-from: 50%;
         `: `
             --transform-from: translateY(-50%);
-            --left-from: 5%;
+            --left-from: 40px;
+            @media screen and (max-width: 500px) {
+                --left-from: calc(40 * 100vw / 500);
+            }
         `}
         ${css`animation: ${TransformAni} 1s 1;`}
     }
@@ -149,7 +157,7 @@ const Image = styled.img`
     height: 80%;
 `
 
-const GitView = styled.text`
+const GitView = styled.div`
     position: absolute;
     font-family: DM Sans;
 

@@ -11,8 +11,8 @@ export default function CheckBox(prop: {
         {prop.check ? (
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect id="box" width="24" height="24" rx="2.4" fill="currentColor"/>
-                <line id="check" y1="-1.5" x2="7.52557" y2="-1.5" transform="matrix(0.612067 0.790806 -0.762201 0.647341 3 12.6201)" stroke="currentColor" stroke-width="3"/>
-                <line id="check" y1="-1.5" x2="17.5015" y2="-1.5" transform="matrix(-0.770489 0.637453 -0.602021 -0.79848 20 6)" stroke="currentColor" stroke-width="3"/>
+                <line id="check" y1="-1.5" x2="7.52557" y2="-1.5" transform="matrix(0.612067 0.790806 -0.762201 0.647341 3 12.6201)" stroke="currentColor" strokeWidth="2.5"/>
+                <line id="check" y1="-1.5" x2="17.5015" y2="-1.5" transform="matrix(-0.770489 0.637453 -0.602021 -0.79848 20 6)" stroke="currentColor" strokeWidth="2.5"/>
             </svg>
         ): (
             <svg width="24" height="24" viewBox="0 0 24 24">

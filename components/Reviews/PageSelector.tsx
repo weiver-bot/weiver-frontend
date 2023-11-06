@@ -24,12 +24,12 @@ export default function PageSelector(prop: {
   return (
     <>
     <Container>
-      {limit != 1 ? <Button onClick={()=>handler(page-1)} $notAllow={page==1}>&lt;</Button> : ''}
+      {limit != 1 && <Button onClick={()=>handler(page-1)} $notAllow={page==1}>&lt;</Button>}
       {list?.map((e) => {
         if (e < 1) return <InputButton key={`${page}#${e}`} handler={handler}/>;
         if (e > 0) return <Button key={`${page}#${e}`} $selected={e == page} onClick={()=>handler(e)}>{e}</Button>
       })}
-      {limit != 1 ? <Button onClick={()=>handler(page+1) } $notAllow={page==limit}>&gt;</Button> : ''}
+      {limit != 1 && <Button onClick={()=>handler(page+1) } $notAllow={page==limit}>&gt;</Button>}
     </Container>
     </>
   )

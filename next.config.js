@@ -2,7 +2,7 @@
 const Dotenv = require("dotenv-webpack");
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   compiler: {
     styledComponents: true
   },
@@ -11,5 +11,4 @@ const nextConfig = {
     return config;
   },
 }
-
 module.exports = nextConfig

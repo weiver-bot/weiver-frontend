@@ -19,6 +19,7 @@
     "react-dom": "^18",
     "react-router-dom": "^6.17.0",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "styled-components": "^6.1.0",
     "styled-reset": "^4.5.1",
     "v6": "^0.0.0"

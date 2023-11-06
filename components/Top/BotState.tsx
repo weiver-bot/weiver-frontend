@@ -9,7 +9,7 @@ export default function BotState(prop: {
         <Wrapper>
             <Frame>
                 <Offline/>
-                {prop.online ? <Online $animation={prop.animation}/>:""}
+                {prop.online && <Online $animation={prop.animation}/>}
             </Frame>
         </Wrapper>
         </>
@@ -51,7 +51,7 @@ const Online = styled.div<{
     border-radius: 50%;
     z-index: 2;
     
-    ${prop=>prop.$animation ? "animation: fadeIn 1s 1;":""}
+    ${prop=>prop.$animation && "animation: fadeIn 1s 1;"}
 `
 
 const Offline = styled.div`

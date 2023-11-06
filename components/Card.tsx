@@ -1,35 +1,24 @@
 import { styled } from "styled-components";
-import CardInfo from "./Card/Info";
-import CardButton from "./Card/Button";
-import { useEffect, useState } from 'react';;
-import GetState from "@/api/state/get";
-import GetURL from "@/api/url/get";
 import { NextRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { AniFrom } from "@/recoil/Top";
-import { State, URL } from "@/recoil/bot";
+import { AniFrom } from "@/lib/recoil/top";
+import CardInfo from "./Card/Info";
+import CardButton from "./Card/Button";
+import useInfo from "@/lib/hooks/useAxiosInfo";
+import useState from "@/lib/hooks/useAxiosState";
 
 export default function Card(prop: {
   $router: NextRouter
 }) {
   const [_, setAniFrom] = useRecoilState(AniFrom);
-  const [state, setState] = useRecoilState(State);
-  const [url, setURL] = useRecoilState(URL);
-  
-  useEffect(() => {
-    GetState().then(res=>{
-      setState(res);
-    }).catch(()=>{})
-    GetURL().then(res=>{
-      setURL(res);
-    }).catch(()=>{})
-  }, []);
+  const info = useInfo();
+  const state = useState();
 
   return (
     <>
     <Wrapper>
       <Container>
-        <CardInfo name={state.name} id={state.id} comment={state.state}/>
+        <CardInfo name={info.name} id={info.id} comment={`Total ⭐${state.avg.toFixed(1)} (${state.count})`}/>
         <Division/>
         <ButtonContainer>
           <Row>
@@ -40,10 +29,10 @@ export default function Card(prop: {
           </Row>
           <Row>
             <CardButton text={"Add to Server"} handler={()=>{
-              window.open(url.invite);
+              window.open(info.URL.invite);
             }}/>
             <CardButton text={"Community"} handler={()=>{
-              window.open(url.community);
+              window.open(info.URL.community);
             }}/>
           </Row>
         </ButtonContainer>
@@ -54,12 +43,14 @@ export default function Card(prop: {
 }
 
 const Wrapper = styled.div`
-  width: 90%;
-  border-radius: 30px;
+  width: 100%;
+  --margin: 40px;
+  margin: 0 var(--margin) var(--margin) var(--margin);
+  border-radius: var(--margin);
   background: #111214;
-  
+
   @media screen and (max-width: 500px) {
-    border-radius: calc(30 * 100vw / 500);
+    --margin: calc(40 * 100vw / 500);
   }
 `;
 
