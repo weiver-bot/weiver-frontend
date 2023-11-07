@@ -70,9 +70,9 @@ export default function ReviewList(prop: {
             if (path.page < 1 || limit < path.page) {
                 return router.push('/review?page=1');
             }
-           LoadReviews(path.page, !filterType, path.query);
+           LoadReviews(path.page, filterType==0, path.query);
         })()
-    }, [path, count])
+    }, [path, count, user])
 
     const PageSelectorHandle = (e: number) => {
         var sort = router.query["sort"];
